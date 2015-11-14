@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Media Hora</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="lblPrueba">\"Esto es una prueba\"</string>
+    <string name="lblCorreo">Correo:</string>
+    <string name="txtCorreo">correo@sucorreo.es</string>
+    <string name="imgUsuario">Imagen del usuario</string>
+    <string name="txtNombre">Nombre</string>
+    <string name="lblPeso">Peso</string>
+    <string name="lblZancada">Zancada</string>
+    <string name="lblAltura">Altura</string>
 </resources>
