@@ -25,7 +25,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/imgUsuario"
             android:layout_marginTop="50dp"
-            android:src="@mipmap/usuario"
             android:contentDescription="@string/imgUsuario"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
@@ -64,9 +63,9 @@
             android:text="@string/lblCorreo"
             android:id="@+id/lblCorreo"
             android:textStyle="bold"
-            android:layout_alignTop="@+id/txtCorreo"
-            android:layout_alignLeft="@+id/txtPeso"
-            android:layout_alignStart="@+id/txtPeso" />
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/txtNombre"
+            android:layout_toStartOf="@+id/txtNombre" />
 
         <TextView
             android:layout_width="wrap_content"
