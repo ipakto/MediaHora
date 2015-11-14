@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/txtCorreo"
+            android:id="@+id/txtCorreo"
+            android:autoLink="email"
+            android:autoText="false"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/txtZancada"
+            android:layout_alignStart="@+id/txtZancada" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgUsuario"
+            android:layout_marginTop="50dp"
+            android:src="@mipmap/Usuario"
+            android:contentDescription="@string/imgUsuario"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="#a29393"
+            android:paddingLeft="1dp"
+            android:paddingTop="1dp"
+            android:paddingRight="1dp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/txtNombre"
+            android:id="@+id/txtNombre"
+            android:layout_below="@+id/imgUsuario"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="70KG."
+            android:id="@+id/txtPeso"
+            android:textStyle="bold"
+            android:layout_marginTop="62dp"
+            android:layout_below="@+id/lblCorreo"
+            android:layout_toLeftOf="@+id/imgUsuario"
+            android:layout_toStartOf="@+id/imgUsuario" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/lblCorreo"
+            android:id="@+id/lblCorreo"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/txtCorreo"
+            android:layout_alignLeft="@+id/txtPeso"
+            android:layout_alignStart="@+id/txtPeso" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="1,75M."
+            android:id="@+id/txtAltura"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/txtPeso"
+            android:layout_alignRight="@+id/txtCorreo"
+            android:layout_alignEnd="@+id/txtCorreo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="47cm."
+            android:id="@+id/txtZancada"
+            android:layout_marginTop="41dp"
+            android:textStyle="bold"
+            android:layout_below="@+id/lblPeso"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/lblPeso"
+            android:id="@+id/lblPeso"
+            android:layout_below="@+id/txtPeso"
+            android:layout_alignLeft="@+id/lblCorreo"
+            android:layout_alignStart="@+id/lblCorreo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/lblZancada"
+            android:id="@+id/lblZancada"
+            android:layout_below="@+id/txtZancada"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/lblAltura"
+            android:id="@+id/lblAltura"
+            android:layout_above="@+id/txtZancada"
+            android:layout_toRightOf="@+id/imgUsuario"
+            android:layout_toEndOf="@+id/imgUsuario" />
+
+    </RelativeLayout>
+</LinearLayout>
