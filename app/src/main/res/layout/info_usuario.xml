@@ -31,7 +31,8 @@
             android:background="#a29393"
             android:paddingLeft="1dp"
             android:paddingTop="1dp"
-            android:paddingRight="1dp" />
+            android:paddingRight="1dp"
+            android:src="@mipmap/usuario" />
 
 
         <TextView
