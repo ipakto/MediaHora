@@ -22,7 +22,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pipo2"
+        android:text="@string/txtNombre"
         android:textSize="14sp"
         android:textColor="#FFF"
         android:textStyle="bold"
@@ -36,7 +36,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pipo"
+        android:text="@string/txtCorreo"
         android:id="@+id/email"
         android:gravity="left"
         android:layout_marginBottom="8dp"

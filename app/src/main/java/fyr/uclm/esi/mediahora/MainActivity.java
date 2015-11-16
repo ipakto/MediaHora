@@ -122,6 +122,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         return true;
                     case R.id.compartir:
                         Toast.makeText(getApplicationContext(),"Compartir Selected",Toast.LENGTH_SHORT).show();
+
+                        Intent is=new Intent(MainActivity.this,Prueba.class);
+                        startActivity(is);
                         return true;
                     case R.id.ajustes:
                         Toast.makeText(getApplicationContext(),"Ajustes Selected",Toast.LENGTH_SHORT).show();

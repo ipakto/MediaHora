@@ -20,6 +20,8 @@
             android:name=".InfoUsuario"/>
         <activity
             android:name=".Stats"/>
+        <activity
+            android:name=".Prueba"/>
     </application>
 
 </manifest>
