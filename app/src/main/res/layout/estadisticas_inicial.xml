@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgPie"
+            android:src="@drawable/huella"
+            android:contentDescription="@string/imgPie"
+            android:layout_alignParentTop="false"
+            android:layout_alignRight="@+id/lblNPasos"
+            android:layout_alignEnd="@+id/lblNPasos"
+            android:layout_alignParentEnd="false"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="false"
+            android:adjustViewBounds="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/lblNPasos"
+            android:id="@+id/lblNPasos"
+            android:textSize="55sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="193dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/txtPasosMeta"
+            android:id="@+id/txtPasosMeta"
+            android:layout_below="@+id/lblNPasos"
+            android:layout_alignRight="@+id/lblNPasos"
+            android:layout_alignEnd="@+id/lblNPasos" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/lblMeta"
+            android:id="@+id/lblMeta"
+            android:layout_below="@+id/lblNPasos"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

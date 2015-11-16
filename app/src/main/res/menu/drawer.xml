@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/g1" android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/perfil"
+            android:checked="false"
+            android:icon="@drawable/ic_person"
+            android:title="@string/m_perfil" />
+
+        <item
+            android:id="@+id/stats"
+            android:checked="false"
+            android:icon="@drawable/ic_star_black"
+            android:title="@string/m_stats" />
+
+        <item
+            android:id="@+id/compartir"
+            android:checked="false"
+            android:icon="@drawable/ic_share"
+            android:title="@string/m_compartir" />
+
+        <item
+            android:id="@+id/ajustes"
+            android:checked="false"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/m_ajustes" />
+    </group>
+
+    <group android:id="@+id/g3" android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/faq"
+            android:checked="false"
+            android:icon="@drawable/ic_delete_black"
+            android:title="@string/m_preg" />
+        <item
+            android:id="@+id/acerca"
+            android:checked="false"
+            android:icon="@drawable/ic_info"
+            android:title="@string/m_acerca" />
+
+
+    </group>
+</menu>
