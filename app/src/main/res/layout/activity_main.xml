@@ -21,7 +21,7 @@ tools:context=".MainActivity">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lblPrueba"
-        android:textSize="50dp" />
+        android:textSize="10dp" />
 
     <FrameLayout
         android:id="@+id/frame"

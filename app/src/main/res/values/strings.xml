@@ -27,6 +27,7 @@
     <string name="openDrawer">Navigation View Closed</string>
 
 
+    <string name="m_inicio">Inicio</string>
     <string name="m_perfil">Perfil</string>
     <string name="m_stats">Estadisticas</string>
     <string name="m_compartir">Compartir</string>

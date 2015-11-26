@@ -122,9 +122,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         return true;
                     case R.id.compartir:
                         Toast.makeText(getApplicationContext(),"Compartir Selected",Toast.LENGTH_SHORT).show();
-
-                        Intent is=new Intent(MainActivity.this,Prueba.class);
-                        startActivity(is);
                         return true;
                     case R.id.ajustes:
                         Toast.makeText(getApplicationContext(),"Ajustes Selected",Toast.LENGTH_SHORT).show();
@@ -166,6 +163,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+
+        ContentFragment fragment = new ContentFragment();
+        fragment.setLayout(R.layout.prueba);
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fragment);
+        fragmentTransaction.commit();
 
     }
 

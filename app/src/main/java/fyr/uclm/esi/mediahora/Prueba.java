@@ -1,9 +1,12 @@
 package fyr.uclm.esi.mediahora;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.eazegraph.lib.charts.PieChart;
 
@@ -17,19 +20,14 @@ import butterknife.ButterKnife;
 /**
  * Created by Paco on 16/11/2015.
  */
-public class Prueba extends Activity
+public class Prueba extends Fragment
 {
 
     private PieModel sliceGoal, sliceCurrent;
     @Bind(R.id.graph) PieChart pg;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.prueba);
-        ButterKnife.bind(this);
-
-
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.prueba,container,false);
         // slice for the steps taken today
         sliceCurrent = new PieModel("", 0, Color.parseColor("#99CC00"));
         pg.addPieSlice(sliceCurrent);
@@ -42,6 +40,10 @@ public class Prueba extends Activity
         pg.startAnimation();
 
         sliceCurrent.setValue(300);
+
+
+return v;
+
         //pg.addPieSlice(sliceGoal);
         //sliceGoal.setValue(100);pg.update();
     }

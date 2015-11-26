@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group android:id="@+id/g0" android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:checked="false"
+            android:icon="@drawable/ic_home_black"
+            android:title="@string/m_inicio" />
+    </group>
     <group android:id="@+id/g1" android:checkableBehavior="single">
-
         <item
             android:id="@+id/perfil"
             android:checked="false"
