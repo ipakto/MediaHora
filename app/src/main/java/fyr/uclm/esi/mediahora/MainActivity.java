@@ -3,6 +3,7 @@ package fyr.uclm.esi.mediahora;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,6 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -29,13 +33,12 @@ import fyr.uclm.esi.mediahora.naview.ContentFragment;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-    int contador = 0;
-    float valorAntiguo = 0, valorActual = 0;
-
+    private int contador = 0;
+    private int meta=250;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     // Layout components
-    @Bind(R.id.lblPrueba)
+    @Bind(R.id.steps)
     TextView mStepsText;
     // @Bind(R.id.detectorTypeText) TextView mDetectorTypeText;
     //@Bind(R.id.statsButton) Button mStatsButton;
@@ -50,6 +53,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+
+    //Cambio de modulo
+    ContentFragment fragment;
+
+    //Circulo pasos
+    private PieModel sliceGoal, sliceCurrent;
+    @Bind(R.id.graph)
+    PieChart pg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +71,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepCounterSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
-       /* mStatsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, StatsActivity.class);
-                intent.putExtra("numSteps", mNumSteps);
-                startActivity(intent);
-            }
-        });*/
+        iniciarGrafico();
 
         //NAVIGATION BAR
 
@@ -86,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
                 //Checking if the item is in checked state or not, if not make it in checked state
-                if(menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
+                /*if(menuItem.isChecked()) menuItem.setChecked(false);
+                else menuItem.setChecked(true);*/
 
                 //Closing drawer on item click
                 drawerLayout.closeDrawers();
@@ -97,34 +101,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
                     //Replacing the main content with ContentFragment Which is our Inbox View;
-                    case R.id.perfil:
-                        Toast.makeText(getApplicationContext(), "Perfil Selected", Toast.LENGTH_SHORT).show();
-                        ContentFragment fragment = new ContentFragment();
-                        fragment.setLayout(R.layout.info_usuario);
-                        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.frame,fragment);
-                        fragmentTransaction.commit();
+
+                    case R.id.home:
+                        Toast.makeText(getApplicationContext(), "Inicio Selected", Toast.LENGTH_SHORT).show();
+                        cambiarFragment(R.layout.prueba);
                         /*Intent i=new Intent(MainActivity.this,InfoUsuario.class);
                         startActivity(i);*/
+                        return true;
+
+                    case R.id.perfil:
+                        Toast.makeText(getApplicationContext(), "Perfil Selected", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, InfoUsuario.class));
                         return true;
 
                     // For rest of the options we just show a toast on click
 
                     case R.id.stats:
-                        Toast.makeText(getApplicationContext(),"Srats Selected",Toast.LENGTH_SHORT).show();
-                        ContentFragment fragment2 = new ContentFragment();
-                        fragment2.setLayout(R.layout.estadisticas_inicial);
-                        android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction2.replace(R.id.frame,fragment2);
-                        fragmentTransaction2.commit();
-                        /*Intent is=new Intent(MainActivity.this,Stats.class);
-                        startActivity(is);*/
+                        Toast.makeText(getApplicationContext(),"Stats Selected",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, InfoUsuario.class));
+                        cambiarFragment(R.layout.prueba);
                         return true;
                     case R.id.compartir:
                         Toast.makeText(getApplicationContext(),"Compartir Selected",Toast.LENGTH_SHORT).show();
+                        Intent is=new Intent(MainActivity.this,Prueba.class);
+                        startActivity(is);
+
                         return true;
                     case R.id.ajustes:
                         Toast.makeText(getApplicationContext(),"Ajustes Selected",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, Opciones.class));
                         return true;
                     case R.id.acerca:
                         Toast.makeText(getApplicationContext(),"Acerca Selected",Toast.LENGTH_SHORT).show();
@@ -172,50 +177,56 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
+    private void iniciarGrafico() {
+        sliceCurrent = new PieModel("", 0, Color.parseColor("#99CC00"));
+        pg.addPieSlice(sliceCurrent);
+
+        // Pasos restantes para alcanzar la meta
+        sliceGoal = new PieModel("", meta, Color.parseColor("#CC0000"));
+        pg.addPieSlice(sliceGoal);
+        pg.setDrawValueInPie(false);
+        pg.setUsePieRotation(true);
+        pg.startAnimation();
+    }
+
+    private void actualizarGrafico(){
+        sliceCurrent.setValue(mNumSteps);
+        if(meta-mNumSteps>0){
+            sliceGoal.setValue(meta-mNumSteps);
+        }else{
+            sliceGoal.setValue(0);
+        }
+        pg.update();
+    }
+
+    private void cambiarFragment(int id){
+       ContentFragment fragment = new ContentFragment();
+       fragment.setLayout(id);
+       android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+       fragmentTransaction.replace(R.id.frame,fragment);
+       fragmentTransaction.commit();
+   }
+
+    @Bind (R.id.average) TextView a;
+    @Bind (R.id.total) TextView t;
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        Sensor sensor = sensorEvent.sensor;
-        float[] values = sensorEvent.values;
-
-
-        if (values.length > 0) {
-            mNumSteps = (int) values[0];
+        switch (sensorEvent.sensor.getType()) {
+            case Sensor.TYPE_STEP_DETECTOR:
+                contador++;
+                break;
+            case Sensor.TYPE_STEP_COUNTER:
+                mNumSteps = (int) sensorEvent.values[0];
+                break;
         }
-        Log.d("PRUEBA", String.valueOf(values[0]));
-        Log.d(TAG, "Me muevo" + mNumSteps);
-        Log.d(TAG, "mNumSteps: " + mNumSteps);
+        a.setText(String.valueOf(contador));
+        t.setText(String.valueOf(mNumSteps));
 
         mStepsText.setText(String.valueOf(mNumSteps));
 
-        if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            //mDetectorTypeText.setText("steps detected by the step counter");
-            Log.d("COUNTER", "he contado");
-        } else if (sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
-            //  mDetectorTypeText.setText("steps detected by the step detector");
-            Log.d("DETECTOR", "he contado");
-        }
-        Log.d("SENSOR", sensor.getName() + " " + sensor.getType());
-        /*synchronized(this) {
-            switch (sensor.getType()) {
-                case Sensor.TYPE_ACCELEROMETER:
-                 //   for (int i = 0; i < 3; i++) {
-                        //log("Acelerómetro " + i + sensorEvent.values[i]);
-                        //eje x= values[0]
-                    mNumSteps++;
-                        if(contador==0){
-                            valorAntiguo= sensorEvent.values[0];
-                        }
-                        if(contador==1){
-                            valorActual= sensorEvent.values[0];
-                            contador=0;
-                           /* if (valorActual-valorAntiguo>4){
-                                mNumSteps++;
-                            }
-                        }
-                    contador++;
-                   // }
-            }
-        }*/
+        actualizarGrafico();
+
+
     }
 
     @Override

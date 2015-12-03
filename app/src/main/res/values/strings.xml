@@ -3,7 +3,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_about">Acerca de</string>
-    <string name="lblCorreo">Correo:</string>
+    <string name="lblCorreo">Correo</string>
     <string name="txtCorreo">correo@sucorreo.es</string>
     <string name="imgUsuario">Imagen del usuario</string>
     <string name="txtNombre">Nombre</string>
@@ -42,4 +42,41 @@
     <string name="imgPie">Icono de una huella de pie humano</string>
 
 
+    <string name="pref_peso">Peso</string>
+    <string name="pref_sexo">Sexo</string>
+    <string name="pref_altura">Altura</string>
+    <string name="pref_edad">Edad</string>
+    <string name="pref_dist">Longitud de zancada</string>
+    <string name="img_fondo">Imagen de fondo</string>
+    <string name="pref_fondo">Elija el fondo deseado para la imagen de perfil</string>
+    <string name="pref_categ_pers">Información Personal</string>
+    <string name="pref_categ_diseño">Diseño</string>
+    <string name="pref_categ_perfil">Perfil</string>
+    <string name="desc_calorias">Se usa para mostrar el consumo de calorias</string>
+    <string name="desc_nombre">Indique su nombre</string>
+    <string name="desc_email">Indique su correo electrónico</string>
+    <string name="pref_dist_desc">Se usa para mostrar la distancia, la velocidad y el consumo de calorias</string>
+
+
+
+
+    <string-array name="pref_fondo_nombre">
+    <item>Fondo1</item>
+    <item>Fondo2</item>
+    <item>Fondo3</item>
+</string-array>
+    <string-array name="pref_fondo_val">
+        <item>Fondo1</item>
+        <item>Fondo2</item>
+        <item>Fondo3</item>
+    </string-array>
+
+    <string-array name="pref_sexo_nombre">
+        <item>Hombre</item>
+        <item>Mujer</item>
+    </string-array>
+    <string-array name="pref_sexo_val">
+        <item>Hombre</item>
+        <item>Mujer</item>
+    </string-array>
 </resources>

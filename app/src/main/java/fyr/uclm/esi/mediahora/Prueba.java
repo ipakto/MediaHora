@@ -42,9 +42,10 @@ public class Prueba extends Fragment
         sliceCurrent.setValue(300);
 
 
-return v;
+        return v;
 
         //pg.addPieSlice(sliceGoal);
         //sliceGoal.setValue(100);pg.update();
     }
+
 }
