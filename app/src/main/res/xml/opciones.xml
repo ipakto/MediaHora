@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_gen"
+        android:title="@string/pref_categ_perfil">
+        <EditTextPreference
+            android:key="pNombre"
+            android:title="@string/txtNombre"
+            android:summary="@string/desc_nombre"/>
+        <EditTextPreference
+            android:key="pCorreo"
+            android:title="@string/lblCorreo"
+            android:summary="@string/desc_correo"/>
+        <ListPreference
+            android:key="pFondoPerf"
+            android:title="@string/img_fondo"
+            android:summary="@string/pref_fondo"
+            android:entries="@array/pref_fondo_nombre"
+            android:entryValues="@array/pref_fondo_val"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_gen"
+        android:title="@string/pref_categ_pers">
+        <EditTextPreference
+            android:key="pEdad"
+            android:title="@string/pref_edad"
+            android:summary="@string/desc_calorias"/>
+        <ListPreference
+            android:key="pSexo"
+            android:title="@string/pref_sexo"
+            android:summary="@string/desc_calorias"
+            android:entries="@array/pref_sexo_nombre"
+            android:entryValues="@array/pref_sexo_val"/>
+        <EditTextPreference
+            android:key="pAltura"
+            android:title="@string/pref_altura"
+            android:summary="@string/desc_calorias"/>
+        <EditTextPreference
+            android:key="pPeso"
+            android:title="@string/pref_peso"
+            android:summary="@string/desc_calorias"/>
+        <EditTextPreference
+            android:key="pDistanciaP"
+            android:title="@string/pref_dist"
+            android:summary="@string/pref_dist_desc"/>
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

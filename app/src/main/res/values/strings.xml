@@ -54,7 +54,7 @@
     <string name="pref_categ_perfil">Perfil</string>
     <string name="desc_calorias">Se usa para mostrar el consumo de calorias</string>
     <string name="desc_nombre">Indique su nombre</string>
-    <string name="desc_email">Indique su correo electrónico</string>
+    <string name="desc_correo">Indique su correo electrónico</string>
     <string name="pref_dist_desc">Se usa para mostrar la distancia, la velocidad y el consumo de calorias</string>
 
 
