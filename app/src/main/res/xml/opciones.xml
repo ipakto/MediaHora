@@ -11,6 +11,11 @@
             android:key="pCorreo"
             android:title="@string/lblCorreo"
             android:summary="@string/desc_correo"/>
+        <Preference
+            android:key="pFoto"
+            android:title="@string/fotoPerfil"
+            android:summary="@string/desc_foto"
+            android:defaultValue=""/>
         <ListPreference
             android:key="pFondoPerf"
             android:title="@string/img_fondo"

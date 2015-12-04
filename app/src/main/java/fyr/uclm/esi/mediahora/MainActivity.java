@@ -1,14 +1,23 @@
 package fyr.uclm.esi.mediahora;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,16 +28,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
+import org.w3c.dom.Text;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fyr.uclm.esi.mediahora.naview.ContentFragment;
 
 
@@ -59,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     //Circulo pasos
     private PieModel sliceGoal, sliceCurrent;
-    @Bind(R.id.graph)
-    PieChart pg;
+    @Bind(R.id.graph)PieChart pg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
         iniciarGrafico();
-
+        cargarPreferencias();
         //NAVIGATION BAR
 
         // Initializing Toolbar and setting it as the actionbar
@@ -123,13 +137,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         return true;
                     case R.id.compartir:
                         Toast.makeText(getApplicationContext(),"Compartir Selected",Toast.LENGTH_SHORT).show();
-                        Intent is=new Intent(MainActivity.this,Prueba.class);
-                        startActivity(is);
 
                         return true;
                     case R.id.ajustes:
                         Toast.makeText(getApplicationContext(),"Ajustes Selected",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, Opciones.class));
+                        //getFragmentManager().beginTransaction().replace(android.R.id.content,new Opciones()).addToBackStack(null).commit();
                         return true;
                     case R.id.acerca:
                         Toast.makeText(getApplicationContext(),"Acerca Selected",Toast.LENGTH_SHORT).show();
@@ -236,9 +249,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-
         mSensorManager.registerListener(this, mStepCounterSensor, SensorManager.SENSOR_DELAY_FASTEST);
         mSensorManager.registerListener(this, mStepDetectorSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        cargarPreferencias();
     }
     //Menu
     @Override
@@ -262,4 +275,58 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     return true;
     }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void cargarPreferencias(){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        String nombre,mail,fondo,foto;
+        Drawable f = null;
+        nombre=prefs.getString("pNombre","Su nombre");
+        mail=prefs.getString("pCorreo","Su correo");
+        fondo=prefs.getString("pFondoPerf","Fondo1");
+        foto=prefs.getString("pFoto","");
+        TextView n=(TextView) findViewById(R.id.username);
+        TextView e=(TextView) findViewById(R.id.email);
+        RelativeLayout r=(RelativeLayout) findViewById(R.id.layoutNav);
+        CircleImageView c=(CircleImageView)findViewById(R.id.profile_image);
+
+        n.setText(nombre);
+        e.setText(mail);
+        //Fondo Perfil
+        switch (fondo) {
+            case "Fondo1":
+                f = this.getResources().getDrawable(R.drawable.fondo1);
+                break;
+            case "Fondo2":
+                f = this.getResources().getDrawable(R.drawable.fondo2);
+                break;
+            case "Fondo3":
+                f = this.getResources().getDrawable(R.drawable.fondo3);
+                break;
+        }
+        r.setBackground(f);
+        //Foto Perfil
+        //boolean fCambia=prefs.getBoolean("fotoCambia",false);
+        //if(fCambia && !foto.equals("")){
+        if(!foto.equals("")){
+           /* File sd = Environment.getExternalStorageDirectory();
+            File image = new File(foto);
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
+            c.setImageBitmap(bitmap);*/
+            Drawable d=Drawable.createFromPath(foto);
+
+            Bitmap bitmap=((BitmapDrawable)d).getBitmap();
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            float scale = (width<=height) ? height/500 : width/500;
+            Bitmap b2=Bitmap.createScaledBitmap(bitmap, Math.round(width/scale), Math.round(height/scale), false);
+            Drawable d2=new BitmapDrawable(getBaseContext().getResources(),b2);
+            c.setImageDrawable(d2);
+            //getPreferences(MODE_PRIVATE).edit().putBoolean("fotoCambia",false).commit();
+
+
+        }
+    }
+
 }
