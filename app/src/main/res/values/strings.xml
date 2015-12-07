@@ -59,6 +59,16 @@
     <string name="fotoPerfil">Foto de perfil</string>
     <string name="desc_foto">Elija la imagen para su foto de perfil</string>
 
+    <string name="sel_edad">Seleccione su edad</string>
+    <string name="sel_peso">Seleccione su peso (kg)</string>
+    <string name="sel_altura">Seleccione su altura (cm)</string>
+    <string name="sel_foto">Elija una opción</string>
+    <string name="sel_imag">Seleccione app de imagen</string>
+    <string name="tomarFoto">Tomar una foto</string>
+    <string name="elegirGaleria">Elegir de galería</string>
+    <string name="cancelar">Cancelar</string>
+
+
 
     <string-array name="pref_fondo_nombre">
     <item>Fondo1</item>

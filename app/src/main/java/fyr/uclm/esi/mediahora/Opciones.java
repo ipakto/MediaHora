@@ -18,7 +18,11 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,34 +58,123 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.opciones);
-        Preference foto=findPreference("pFoto");
-        foto.setOnPreferenceClickListener(this);
+        findPreference("pNombre").setOnPreferenceClickListener(this);
+        findPreference("pCorreo").setOnPreferenceClickListener(this);
+        findPreference("pFondoPerf").setOnPreferenceClickListener(this);
+        findPreference("pFoto").setOnPreferenceClickListener(this);
+        findPreference("pEdad").setOnPreferenceClickListener(this);
+        findPreference("pAltura").setOnPreferenceClickListener(this);
+        findPreference("pPeso").setOnPreferenceClickListener(this);
+        findPreference("pDistanciaP").setOnPreferenceClickListener(this);
 
+    }
+    private String getStr(int id){
+        return getResources().getString(id);
     }
     @Override
     public boolean onPreferenceClick(final Preference preference){
+        final AlertDialog.Builder builder;
+        final NumberPicker np;
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         switch (preference.getTitleRes()) {
             case R.string.fotoPerfil:
-                final CharSequence[] options = {"Tomar foto", "Elegir de galeria", "Cancelar"};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Elige una opcion :D");
+                final CharSequence[] options = {getStr(R.string.tomarFoto), getStr(R.string.elegirGaleria), getStr(R.string.cancelar)};
+                builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.sel_foto);
                 builder.setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int seleccion) {
-                        if(options[seleccion] == "Tomar foto"){
+                        if(options[seleccion].equals(getStr(R.string.tomarFoto))){
                             openCamera();
-                        }else if (options[seleccion] == "Elegir de galeria") {
+                        }else if (options[seleccion].equals(getStr(R.string.elegirGaleria))) {
                             Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             intent.setType("image/*");
-                            startActivityForResult(intent.createChooser(intent, "Selecciona app de imagen"), SELECT_PICTURE);
-                        }else if(options[seleccion] == "Cancelar"){
+                            startActivityForResult(intent.createChooser(intent, getStr(R.string.sel_foto)), SELECT_PICTURE);
+                        }else if(options[seleccion].equals(getStr(R.string.cancelar))){
                             dialog.dismiss();
                         }
                     }
                 });
                 builder.show();
                 break;
+            case R.string.pref_edad:
+                builder = new AlertDialog.Builder(this);
+                np = new NumberPicker(this);
+                np.setMinValue(1);
+                np.setMaxValue(120);
+                np.setValue(prefs.getInt("pEdad",20));
+                builder.setView(np);
+                builder.setTitle(R.string.sel_edad);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        np.clearFocus();
+                        findPreference("pEdad").getEditor().putInt("pEdad", np.getValue()).commit();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                break;
+            case R.string.pref_altura:
+                builder = new AlertDialog.Builder(this);
+                np = new NumberPicker(this);
+                np.setMinValue(80);
+                np.setMaxValue(230);
+                np.setValue(prefs.getInt("pAltura",170));
+                builder.setView(np);
+
+                builder.setTitle(R.string.sel_altura);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        np.clearFocus();
+                        findPreference("pAltura").getEditor().putInt("pAltura", np.getValue()).commit();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                break;
+            case R.string.pref_peso:
+                builder = new AlertDialog.Builder(this);
+                np = new NumberPicker(this);
+                np.setMinValue(10);
+                np.setMaxValue(120);
+                np.setValue(prefs.getInt("pPeso",70));
+                builder.setView(np);
+                builder.setTitle(R.string.sel_peso);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        np.clearFocus();
+                        findPreference("pPeso").getEditor().putInt("pPeso", np.getValue()).commit();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                break;
+            default:
+                cambiaPreferencias();
+                break;
         }
+
         return false;
     }
 
@@ -120,7 +213,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                         public void onMediaScannerConnected() {
                             msc.scanFile(dir, null);
                             findPreference("pFoto").getEditor().putString("pFoto",dir).commit();
-                            //findPreference("fotoCambia").getEditor().putBoolean("fotoCambia",true).commit();
+                            cambiaPreferencias();
                         }
                         public void onScanCompleted(String path, Uri uri) {
                             msc.disconnect();
@@ -133,12 +226,18 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                 if(resultCode == RESULT_OK){
                     Uri uri = data.getData();
                     String path=getRealPathFromURI(uri);
-                    findPreference("pFoto").getEditor().putString("pFoto",path).commit();
-                    //findPreference("fotoCambia").getEditor().putBoolean("fotoCambia", true).commit();
+                    findPreference("pFoto").getEditor().putString("pFoto", path).commit();
+                    cambiaPreferencias();
                 }
                 break;
         }
 
+    }
+
+    private void cambiaPreferencias() {
+        SharedPreferences p=PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor e=p.edit();
+        e.putBoolean("pCambia", true).commit();
     }
 
     //Metodo proporcionado en:

@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
         iniciarGrafico();
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("pCambia",false).commit();
         cargarPreferencias();
         //NAVIGATION BAR
 
@@ -279,53 +280,46 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void cargarPreferencias(){
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
-        String nombre,mail,fondo,foto;
-        Drawable f = null;
-        nombre=prefs.getString("pNombre","Su nombre");
-        mail=prefs.getString("pCorreo","Su correo");
-        fondo=prefs.getString("pFondoPerf","Fondo1");
-        foto=prefs.getString("pFoto","");
-        TextView n=(TextView) findViewById(R.id.username);
-        TextView e=(TextView) findViewById(R.id.email);
-        RelativeLayout r=(RelativeLayout) findViewById(R.id.layoutNav);
-        CircleImageView c=(CircleImageView)findViewById(R.id.profile_image);
+        //En caso de que haya cambiado alguna preferencia, actualizamos el cambio
+        if(prefs.getBoolean("pCambia",true)){
+            String nombre,mail,fondo,foto;
+            Drawable f = null;
+            nombre=prefs.getString("pNombre","Su nombre");
+            mail=prefs.getString("pCorreo","Su correo");
+            fondo=prefs.getString("pFondoPerf","Fondo1");
+            foto=prefs.getString("pFoto","");
+            TextView n=(TextView) findViewById(R.id.username);
+            TextView e=(TextView) findViewById(R.id.email);
+            RelativeLayout r=(RelativeLayout) findViewById(R.id.layoutNav);
+            CircleImageView c=(CircleImageView)findViewById(R.id.profile_image);
 
-        n.setText(nombre);
-        e.setText(mail);
-        //Fondo Perfil
-        switch (fondo) {
-            case "Fondo1":
-                f = this.getResources().getDrawable(R.drawable.fondo1);
-                break;
-            case "Fondo2":
-                f = this.getResources().getDrawable(R.drawable.fondo2);
-                break;
-            case "Fondo3":
-                f = this.getResources().getDrawable(R.drawable.fondo3);
-                break;
-        }
-        r.setBackground(f);
-        //Foto Perfil
-        //boolean fCambia=prefs.getBoolean("fotoCambia",false);
-        //if(fCambia && !foto.equals("")){
-        if(!foto.equals("")){
-           /* File sd = Environment.getExternalStorageDirectory();
-            File image = new File(foto);
-            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-            Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath(),bmOptions);
-            c.setImageBitmap(bitmap);*/
-            Drawable d=Drawable.createFromPath(foto);
-
-            Bitmap bitmap=((BitmapDrawable)d).getBitmap();
-            int width = bitmap.getWidth();
-            int height = bitmap.getHeight();
-            float scale = (width<=height) ? height/500 : width/500;
-            Bitmap b2=Bitmap.createScaledBitmap(bitmap, Math.round(width/scale), Math.round(height/scale), false);
-            Drawable d2=new BitmapDrawable(getBaseContext().getResources(),b2);
-            c.setImageDrawable(d2);
-            //getPreferences(MODE_PRIVATE).edit().putBoolean("fotoCambia",false).commit();
-
-
+            n.setText(nombre);
+            e.setText(mail);
+            //Fondo Perfil
+            switch (fondo) {
+                case "Fondo1":
+                    f = this.getResources().getDrawable(R.drawable.fondo1);
+                    break;
+                case "Fondo2":
+                    f = this.getResources().getDrawable(R.drawable.fondo2);
+                    break;
+                case "Fondo3":
+                    f = this.getResources().getDrawable(R.drawable.fondo3);
+                    break;
+            }
+            r.setBackground(f);
+            //Foto Perfil
+            if(!foto.equals("")) {
+                Drawable d = Drawable.createFromPath(foto);
+                Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+                int width = bitmap.getWidth();
+                int height = bitmap.getHeight();
+                float scale = (width <= height) ? height / 500 : width / 500;
+                Bitmap b2 = Bitmap.createScaledBitmap(bitmap, Math.round(width / scale), Math.round(height / scale), false);
+                Drawable d2 = new BitmapDrawable(getBaseContext().getResources(), b2);
+                c.setImageDrawable(d2);
+            }
+            prefs.edit().putBoolean("pCambia",false).commit();
         }
     }
 
