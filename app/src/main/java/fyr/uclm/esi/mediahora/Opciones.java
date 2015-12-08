@@ -41,7 +41,7 @@ import butterknife.Bind;
  * IMAGENES: https://github.com/Roberasd/Pictures-Android
  */
 
-public class Opciones extends PreferenceActivity implements Preference.OnPreferenceClickListener{
+public class Opciones extends PreferenceActivity implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener{
     //Trato de imagenes
     private String APP_DIRECTORY = "mediaHora/";
     private String MEDIA_DIRECTORY = APP_DIRECTORY + "media";
@@ -58,19 +58,72 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.opciones);
-        findPreference("pNombre").setOnPreferenceClickListener(this);
-        findPreference("pCorreo").setOnPreferenceClickListener(this);
-        findPreference("pFondoPerf").setOnPreferenceClickListener(this);
+        findPreference("pNombre").setOnPreferenceChangeListener(this);
+        findPreference("pCorreo").setOnPreferenceChangeListener(this);
+        findPreference("pFondoPerf").setOnPreferenceChangeListener(this);
         findPreference("pFoto").setOnPreferenceClickListener(this);
         findPreference("pEdad").setOnPreferenceClickListener(this);
+        findPreference("pSexo").setOnPreferenceChangeListener(this);
         findPreference("pAltura").setOnPreferenceClickListener(this);
         findPreference("pPeso").setOnPreferenceClickListener(this);
         findPreference("pDistanciaP").setOnPreferenceClickListener(this);
+        completarCampos();
+
 
     }
+    private void completarCampos(){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        findPreference("pNombre").setSummary(prefs.getString("pNombre", getStr(R.string.desc_nombre)));
+        findPreference("pCorreo").setSummary(prefs.getString("pCorreo", getStr(R.string.desc_correo)));
+        findPreference("pFondoPerf").setSummary(prefs.getString("pFondoPref", getStr(R.string.img_fondo)));
+        /*findPreference("pFoto").setSummary(prefs.getString("pFoto",getStr(R.string.desc_foto)));*/
+        getPrefValue("pEdad", prefs, " años");
+        findPreference("pSexo").setSummary(prefs.getString("pSexo", getStr(R.string.desc_calorias)));
+        getPrefValue("pAltura", prefs," cm.");
+        getPrefValue("pPeso", prefs," kg.");
+        getPrefValue("pDistanciaP", prefs," cm.");
+    }
+
     private String getStr(int id){
         return getResources().getString(id);
     }
+    private void getPrefValue(String nombreP, SharedPreferences prefs, String unidad){
+        int value=prefs.getInt(nombreP, -1);
+        if(value==-1){
+            findPreference(nombreP).setSummary(getStr(R.string.desc_calorias));
+        }else{
+            findPreference(nombreP).setSummary(String.valueOf(value)+unidad);
+        }
+    }
+
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        switch (preference.getTitleRes()) {
+            case R.string.pref_sexo:
+                prefs.edit().putString("pSexo",String.valueOf(newValue)).commit();
+                preference.setSummary(String.valueOf(newValue));
+                break;
+            case R.string.pref_nombre:
+                prefs.edit().putString("pNombre", String.valueOf(newValue)).commit();
+                preference.setSummary(String.valueOf(newValue));
+                cambiaPreferencias();
+                break;
+            case R.string.pref_correo:
+                prefs.edit().putString("pCorreo", String.valueOf(newValue)).commit();
+                preference.setSummary(String.valueOf(newValue));
+                cambiaPreferencias();
+                break;
+            case R.string.img_fondo:
+                prefs.edit().putString("pFondoPref", String.valueOf(newValue)).commit();
+                preference.setSummary(String.valueOf(newValue));
+                cambiaPreferencias();
+                break;
+        }
+        return true;
+    }
+
     @Override
     public boolean onPreferenceClick(final Preference preference){
         final AlertDialog.Builder builder;
@@ -110,6 +163,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                     public void onClick(DialogInterface dialog, int which) {
                         np.clearFocus();
                         findPreference("pEdad").getEditor().putInt("pEdad", np.getValue()).commit();
+                        preference.setSummary(String.valueOf(np.getValue())+" años");
                         dialog.dismiss();
                     }
                 });
@@ -121,6 +175,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                 });
                 builder.show();
                 break;
+
             case R.string.pref_altura:
                 builder = new AlertDialog.Builder(this);
                 np = new NumberPicker(this);
@@ -135,6 +190,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                     public void onClick(DialogInterface dialog, int which) {
                         np.clearFocus();
                         findPreference("pAltura").getEditor().putInt("pAltura", np.getValue()).commit();
+                        preference.setSummary(String.valueOf(np.getValue())+" cm.");
                         dialog.dismiss();
                     }
                 });
@@ -159,6 +215,32 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                     public void onClick(DialogInterface dialog, int which) {
                         np.clearFocus();
                         findPreference("pPeso").getEditor().putInt("pPeso", np.getValue()).commit();
+                        preference.setSummary(String.valueOf(np.getValue())+" kg.");
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                break;
+            case R.string.pref_dist:
+                builder = new AlertDialog.Builder(this);
+                np = new NumberPicker(this);
+                np.setMinValue(0);
+                np.setMaxValue(100);
+                np.setValue(prefs.getInt("pDistanciaP",60));
+                builder.setView(np);
+                builder.setTitle(R.string.sel_dist);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        np.clearFocus();
+                        findPreference("pDistanciaP").getEditor().putInt("pDistanciaP", np.getValue()).commit();
+                        preference.setSummary(String.valueOf(np.getValue())+" cm.");
                         dialog.dismiss();
                     }
                 });
@@ -171,7 +253,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                 builder.show();
                 break;
             default:
-                cambiaPreferencias();
+              /*  cambiaPreferencias();*/
                 break;
         }
 
@@ -214,6 +296,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                             msc.scanFile(dir, null);
                             findPreference("pFoto").getEditor().putString("pFoto",dir).commit();
                             cambiaPreferencias();
+                            Toast.makeText(getApplicationContext(), R.string.toastFoto, Toast.LENGTH_LONG).show();
                         }
                         public void onScanCompleted(String path, Uri uri) {
                             msc.disconnect();
@@ -228,6 +311,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                     String path=getRealPathFromURI(uri);
                     findPreference("pFoto").getEditor().putString("pFoto", path).commit();
                     cambiaPreferencias();
+                    Toast.makeText(getApplicationContext(), R.string.toastFoto, Toast.LENGTH_LONG).show();
                 }
                 break;
         }
@@ -255,4 +339,5 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         }
         return result;
     }
+
 }

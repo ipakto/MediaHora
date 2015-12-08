@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
         iniciarGrafico();
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("pCambia",false).commit();
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("pCambia",true).commit();
         cargarPreferencias();
         //NAVIGATION BAR
 
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                         return true;
                     case R.id.ajustes:
-                        Toast.makeText(getApplicationContext(),"Ajustes Selected",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Ha seleccionado Ajustes",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, Opciones.class));
                         //getFragmentManager().beginTransaction().replace(android.R.id.content,new Opciones()).addToBackStack(null).commit();
                         return true;

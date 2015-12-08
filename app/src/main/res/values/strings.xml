@@ -3,10 +3,8 @@
 
     <string name="action_settings">Settings</string>
     <string name="action_about">Acerca de</string>
-    <string name="lblCorreo">Correo</string>
     <string name="txtCorreo">correo@sucorreo.es</string>
     <string name="imgUsuario">Imagen del usuario</string>
-    <string name="txtNombre">Nombre</string>
     <string name="lblPeso">Peso</string>
     <string name="lblZancada">Zancada</string>
     <string name="lblAltura">Altura</string>
@@ -41,7 +39,8 @@
     <string name="txtPasosMeta">12000</string>
     <string name="imgPie">Icono de una huella de pie humano</string>
 
-
+    <string name="pref_nombre">Nombre</string>
+    <string name="pref_correo">Correo</string>
     <string name="pref_peso">Peso</string>
     <string name="pref_sexo">Sexo</string>
     <string name="pref_altura">Altura</string>
@@ -64,10 +63,11 @@
     <string name="sel_altura">Seleccione su altura (cm)</string>
     <string name="sel_foto">Elija una opción</string>
     <string name="sel_imag">Seleccione app de imagen</string>
+    <string name="sel_dist">Seleccione su longitud de zancada (cm)</string>
     <string name="tomarFoto">Tomar una foto</string>
     <string name="elegirGaleria">Elegir de galería</string>
     <string name="cancelar">Cancelar</string>
-
+    <string name="toastFoto">Imagen de perfil modificada correctamente</string>
 
 
     <string-array name="pref_fondo_nombre">
