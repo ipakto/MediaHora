@@ -9,18 +9,17 @@
     tools:context=".InfoUsuario">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/fotoPerfil"
         android:src="@drawable/pipo2"
-        android:layout_weight=".6"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:layout_weight="1.2" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnCount="9"
-        android:rowCount="7"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp">
 
         <TextView
@@ -29,12 +28,9 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/txtNombre"
             android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="25dp"
-            android:text="Nombre" />
+            android:text="Nombre"
+            android:layout_weight=".3"
+            android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,9 +39,15 @@
             android:text="@string/txtCorreo"
             android:id="@+id/txtCorreo"
             android:autoLink="email"
-            android:layout_alignBottom="@+id/txtNombre"
-            android:layout_alignLeft="@+id/lblZancada"
-            android:layout_alignStart="@+id/lblZancada" />
+            android:layout_weight=".7"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +59,10 @@
             android:layout_below="@+id/txtNombre"
             android:layout_alignLeft="@+id/txtNombre"
             android:layout_alignStart="@+id/txtNombre"
-            android:layout_marginTop="58dp" />
+            android:layout_weight=".33"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -67,7 +72,11 @@
             android:id="@+id/lblZancada"
             android:textStyle="bold"
             android:layout_alignTop="@+id/lblAltura"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_weight=".33"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,17 +87,18 @@
             android:textStyle="bold"
             android:layout_alignTop="@+id/lblZancada"
             android:layout_alignLeft="@+id/ic_peso"
-            android:layout_alignStart="@+id/ic_peso" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:text="1,75 m"
-            android:id="@+id/tAltura"
-            android:layout_alignTop="@+id/tZancada"
-            android:layout_alignLeft="@+id/lblAltura"
-            android:layout_alignStart="@+id/lblAltura" />
+            android:layout_alignStart="@+id/ic_peso"
+            android:layout_weight=".33"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,7 +107,16 @@
             android:layout_below="@+id/lblAltura"
             android:layout_alignLeft="@+id/tAltura"
             android:layout_alignStart="@+id/tAltura"
-            android:layout_marginLeft="10dp" />
+            android:layout_weight=".33" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_zancada"
+            android:src="@drawable/ic_zancada"
+            android:layout_below="@+id/lblZancada"
+            android:layout_centerHorizontal="true"
+            android:layout_weight=".33" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -107,15 +126,39 @@
             android:layout_below="@+id/lblPeso"
             android:layout_alignRight="@+id/txtCorreo"
             android:layout_alignEnd="@+id/txtCorreo"
+            android:layout_weight=".33"
             android:layout_marginTop="20dp" />
+    </LinearLayout>
 
-        <ImageView
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ic_zancada"
-            android:src="@drawable/ic_zancada"
-            android:layout_below="@+id/lblZancada"
-            android:layout_centerHorizontal="true" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:text="1,75 m"
+            android:id="@+id/tAltura"
+            android:layout_alignTop="@+id/tZancada"
+            android:layout_alignLeft="@+id/lblAltura"
+            android:layout_alignStart="@+id/lblAltura"
+            android:layout_weight=".33"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:text="65 cm"
+            android:id="@+id/tZancada"
+            android:layout_below="@+id/ic_zancada"
+            android:layout_centerHorizontal="true"
+            android:layout_weight=".33"
+            android:gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -126,19 +169,9 @@
             android:id="@+id/tPeso"
             android:layout_below="@+id/ic_zancada"
             android:layout_alignLeft="@+id/ic_peso"
-            android:layout_alignStart="@+id/ic_peso" />
+            android:layout_alignStart="@+id/ic_peso"
+            android:layout_weight=".33"
+            android:gravity="center" />
+    </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold"
-            android:text="65 cm"
-            android:id="@+id/tZancada"
-            android:layout_below="@+id/ic_zancada"
-            android:layout_centerHorizontal="true" />
-
-
-
-    </RelativeLayout>
 </LinearLayout>
