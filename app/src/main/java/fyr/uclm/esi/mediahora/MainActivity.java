@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,18 +15,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,15 +31,13 @@ import android.widget.Toast;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
-import org.w3c.dom.Text;
-
-import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import fyr.uclm.esi.mediahora.naview.ContentFragment;
+import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -62,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor mStepCounterSensor;
     private Sensor mStepDetectorSensor;
     private int mNumSteps;
+    private ConectorBD conectorBD;
 
     //Defining Variables NavBar
     private Toolbar toolbar;
@@ -77,9 +72,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        conectorBD = new ConectorBD(this);
+        conectorBD.abrir();
+        conectorBD.insertarValor(Util.getToday(), 27);
+        conectorBD.cerrar();
+        Toast.makeText(getBaseContext(), "Se añadió una nueva entrada a la BD!", Toast.LENGTH_SHORT).show();
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mStepCounterSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
