@@ -100,17 +100,192 @@ tools:context=".MainActivity">
                 android:text="Total"/>
         </LinearLayout>
 
-        <org.eazegraph.lib.charts.BarChart
-            xmlns:eaze="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/bargraph"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="86dp"
+            android:weightSum="1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
             android:layout_below="@+id/averageandtotaltext"
-            android:layout_marginTop="50dp"
-            eaze:egLegendHeight="35dp"
-            eaze:egShowValues="true"/>
+            android:id="@+id/LayoutCalVel">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="162dp"
+                android:layout_height="71dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/averageandtotaltext"
+                android:layout_weight="0.32"
+                android:id="@+id/LayoutCalorias">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgCal"
+                    android:contentDescription="Icono de calorías"
+                    android:src="@drawable/flames8"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/LayoutValoresCal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lblCalorias"
+                        android:id="@+id/lblCalorias" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtCalorias"
+                        android:text="37 cal"
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="161dp"
+                android:layout_height="70dp"
+                android:layout_weight="0.32"
+                android:id="@+id/LayoutVelocidad">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgVel"
+                    android:src="@drawable/runer"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/LayoutValoresVel"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lblVelocidad"
+                        android:id="@+id/lblVelocidad" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6km/hora"
+                        android:id="@+id/txtVelocidad"
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="86dp"
+            android:weightSum="1"
+            android:layout_below="@+id/LayoutCalVel"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/LayoutDisTiem">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="162dp"
+                android:layout_height="71dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/averageandtotaltext"
+                android:layout_weight="0.32"
+                android:id="@+id/layoutDist" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgDist"
+                    android:contentDescription="Icono de calorías"
+                    android:src="@drawable/ruler13"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutValoresDist"
+                    android:layout_marginTop="10dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lblDist"
+                        android:id="@+id/lblDist" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txtDist"
+                        android:text="300m"
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="161dp"
+                android:layout_height="70dp"
+                android:layout_weight="0.32"
+                android:id="@+id/layoutTiempo" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgTiempo"
+                    android:src="@drawable/stopwatch"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutValoresTiem"
+                    android:layout_marginTop="10dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lblTiempo"
+                        android:id="@+id/lblTiempo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00:05:27"
+                        android:id="@+id/txtTiempo"
+                        android:textStyle="bold"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
 
     </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"

@@ -135,8 +135,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                     case R.id.stats:
                         Toast.makeText(getApplicationContext(),"Stats Selected",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this, InfoUsuario.class));
-                        cambiarFragment(R.layout.prueba);
+                        startActivity(new Intent(MainActivity.this, Stats.class));
+                        cambiarFragment(R.layout.estadisticas);
                         return true;
                     case R.id.compartir:
                         Toast.makeText(getApplicationContext(),"Compartir Selected",Toast.LENGTH_SHORT).show();
@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
             case Sensor.TYPE_STEP_COUNTER:
                 mNumSteps = (int) sensorEvent.values[0];
+                realizarCalculos(mNumSteps);
                 break;
         }
         a.setText(String.valueOf(contador));
@@ -244,7 +245,63 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     }
+    @Bind(R.id.txtDist) TextView distRecorrida;
+    @Bind(R.id.txtCalorias) TextView caloriasConsumidas;
+    @Bind (R.id.txtTiempo) TextView tiempoMedio;
+    @Bind (R.id.txtVelocidad) TextView velocidadMedia;
+    //Valor de las calorias: http://es.calcuworld.com/deporte-y-ejercicio/calculadora-de-calorias-quemadas/
+    public void realizarCalculos(int steps){
+        int distancia=0,lZancada=0, minutos=0;
+        double velocidad , calorias, nivel;
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        lZancada=prefs.getInt("pDistanciaP", 0); // en cm
+        distancia=steps*(lZancada/100); //pasada a metros
+        velocidad=(distancia/1000)/(minutos/60); //pasada a kilometros/hora
+        if (velocidad <= 2.9){
+            nivel=0.010; //no viene la he puesto aproximada
+            //calorias=(67.5*minutos)/30;
+        }else if(velocidad>3.0 && velocidad <=4.7){
+            nivel=0.026;
+          //  calorias=(150*minutos)/30;
+        }else if(velocidad> 4.8 && velocidad <= 6.0){
+            nivel=0.035;
+           // calorias=(180*minutos)/30;
+        }else{
+            nivel=0.0485;
+           // calorias=(220*minutos)/30;
+        }
+        calorias=(2.2*prefs.getInt("pPeso",0))*minutos*nivel;
+        calorias=Math.round(calorias*10)/10;
+        distRecorrida.setText(distancia+ "m.");
+        velocidadMedia.setText(velocidad+ "km./hora");
+        caloriasConsumidas.setText(calorias+"cal");
+        tiempoMedio.setText(calcularTiempo(minutos));
 
+    }
+    public String calcularTiempo(int minutos){
+        int h,m,s;
+        String hFinal,mFinal,sFinal;
+        s=minutos*60;
+        h=s/3600;
+        m=h-(s/3600)*60;
+        s=m-(h-(s/3600)*60)*60;
+        if (h < 10) {
+            hFinal="0"+h;
+        }else{
+            hFinal=""+h;
+        }
+        if (m < 10) {
+            mFinal="0"+m;
+        }else{
+           mFinal=""+m;
+        }
+        if (s < 10) {
+            sFinal="0"+s;
+        }else{
+            sFinal=""+s;
+        }
+        return hFinal+":"+mFinal+":"+sFinal;
+    }
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
     }

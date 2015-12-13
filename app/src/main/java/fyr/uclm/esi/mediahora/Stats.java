@@ -15,6 +15,6 @@ public class Stats extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.estadisticas_inicial);
+        setContentView(R.layout.estadisticas);
     }
 }

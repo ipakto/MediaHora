@@ -68,6 +68,10 @@
     <string name="elegirGaleria">Elegir de galería</string>
     <string name="cancelar">Cancelar</string>
     <string name="toastFoto">Imagen de perfil modificada correctamente</string>
+    <string name="lblCalorias">Calorias</string>
+    <string name="lblVelocidad">Velocidad media</string>
+    <string name="lblDist">Distancia recorrida</string>
+    <string name="lblTiempo">Tiempo</string>
 
 
     <string-array name="pref_fondo_nombre">
