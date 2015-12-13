@@ -267,12 +267,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Bind (R.id.txtTiempo) TextView tiempoMedio;
     @Bind (R.id.txtVelocidad) TextView velocidadMedia;
     //Valor de las calorias: http://es.calcuworld.com/deporte-y-ejercicio/calculadora-de-calorias-quemadas/
+    double minutos=1;
     public void realizarCalculos(int steps){
-        int lZancada=0, minutos=1;
-        double velocidad , calorias, nivel, distancia;
+        int lZancada=0,distancia;
+        double velocidad , calorias, nivel;
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         lZancada=prefs.getInt("pDistanciaP", 65); // en cm
-        distancia=steps*lZancada*0.01; //pasada a metros
+        distancia=(int)(steps*lZancada*0.01); //pasada a metros
        // velocidad=(distancia/1000)/(minutos/60); //pasada a kilometros/hora
         velocidad=1;
         if (velocidad <= 2.9){
@@ -288,11 +289,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             nivel=0.0485;
            // calorias=(220*minutos)/30;
         }
+        minutos+=.1;
         calorias=(2.2*prefs.getInt("pPeso",70))*minutos*nivel;
         distRecorrida.setText(distancia+ "m");
         velocidadMedia.setText(velocidad+ "km/hora");
         caloriasConsumidas.setText(Math.round(calorias)+"kcal");
-        tiempoMedio.setText(calcularTiempo(minutos));
+        tiempoMedio.setText(calcularTiempo((int)minutos));
 
     }
     public String calcularTiempo(int minutos){
