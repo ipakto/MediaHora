@@ -53,54 +53,6 @@ tools:context=".MainActivity">
             android:textSize="20sp"/>
 
         <LinearLayout
-            android:id="@+id/averageandtotal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/graph"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:id="@+id/average"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/total"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/averageandtotaltext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/averageandtotal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="Media"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="Total"/>
-        </LinearLayout>
-
-        <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="86dp"
@@ -108,8 +60,8 @@ tools:context=".MainActivity">
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/averageandtotaltext"
-            android:id="@+id/LayoutCalVel">
+            android:id="@+id/LayoutCalVel"
+            android:layout_below="@+id/graph">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -147,7 +99,7 @@ tools:context=".MainActivity">
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/txtCalorias"
-                        android:text="37 cal"
+                        android:text="37 kcal"
                         android:textStyle="bold"
                         android:textSize="20sp" />
                 </LinearLayout>
@@ -185,7 +137,7 @@ tools:context=".MainActivity">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="6km/hora"
+                        android:text="6km/h"
                         android:id="@+id/txtVelocidad"
                         android:textStyle="bold"
                         android:textSize="20sp" />
@@ -283,6 +235,14 @@ tools:context=".MainActivity">
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BTN"
+            android:id="@+id/btnPaso"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 

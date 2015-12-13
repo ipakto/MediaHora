@@ -2,10 +2,13 @@ package fyr.uclm.esi.mediahora;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -17,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +47,7 @@ import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private int contador = 0;
-    private int meta=250;
+    private int meta=50;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     // Layout components
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager mSensorManager;
     private Sensor mStepCounterSensor;
     private Sensor mStepDetectorSensor;
-    private int mNumSteps;
+    private int mNumSteps=0;
     private ConectorBD conectorBD;
 
     //Defining Variables NavBar
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     //Circulo pasos
     private PieModel sliceGoal, sliceCurrent;
     @Bind(R.id.graph)PieChart pg;
-
+    @Bind(R.id.btnPaso) Button b;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -92,6 +97,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         cargarPreferencias();
         //NAVIGATION BAR
 
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sensorSimulado();
+            }
+        });
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -140,6 +151,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         return true;
                     case R.id.compartir:
                         Toast.makeText(getApplicationContext(),"Compartir Selected",Toast.LENGTH_SHORT).show();
+                        notificar();
+                        compartir();
 
                         return true;
                     case R.id.ajustes:
@@ -149,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         return true;
                     case R.id.acerca:
                         Toast.makeText(getApplicationContext(),"Acerca Selected",Toast.LENGTH_SHORT).show();
+                        notificar();
                         return true;
                     case R.id.faq:
                         Toast.makeText(getApplicationContext(),"FAQ Selected",Toast.LENGTH_SHORT).show();
@@ -211,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             sliceGoal.setValue(meta-mNumSteps);
         }else{
             sliceGoal.setValue(0);
+            notificar();
         }
         pg.update();
     }
@@ -219,12 +234,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
        ContentFragment fragment = new ContentFragment();
        fragment.setLayout(id);
        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-       fragmentTransaction.replace(R.id.frame,fragment);
+       fragmentTransaction.replace(R.id.frame, fragment);
        fragmentTransaction.commit();
    }
 
-    @Bind (R.id.average) TextView a;
-    @Bind (R.id.total) TextView t;
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         switch (sensorEvent.sensor.getType()) {
@@ -236,14 +250,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 realizarCalculos(mNumSteps);
                 break;
         }
-        a.setText(String.valueOf(contador));
-        t.setText(String.valueOf(mNumSteps));
 
         mStepsText.setText(String.valueOf(mNumSteps));
 
         actualizarGrafico();
+    }
+    public void sensorSimulado(){
+        mNumSteps += 1;
+        realizarCalculos(mNumSteps);
 
-
+        mStepsText.setText(String.valueOf(mNumSteps));
+        actualizarGrafico();
     }
     @Bind(R.id.txtDist) TextView distRecorrida;
     @Bind(R.id.txtCalorias) TextView caloriasConsumidas;
@@ -251,12 +268,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Bind (R.id.txtVelocidad) TextView velocidadMedia;
     //Valor de las calorias: http://es.calcuworld.com/deporte-y-ejercicio/calculadora-de-calorias-quemadas/
     public void realizarCalculos(int steps){
-        int distancia=0,lZancada=0, minutos=0;
-        double velocidad , calorias, nivel;
+        int lZancada=0, minutos=1;
+        double velocidad , calorias, nivel, distancia;
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
-        lZancada=prefs.getInt("pDistanciaP", 0); // en cm
-        distancia=steps*(lZancada/100); //pasada a metros
-        velocidad=(distancia/1000)/(minutos/60); //pasada a kilometros/hora
+        lZancada=prefs.getInt("pDistanciaP", 65); // en cm
+        distancia=steps*lZancada*0.01; //pasada a metros
+       // velocidad=(distancia/1000)/(minutos/60); //pasada a kilometros/hora
+        velocidad=1;
         if (velocidad <= 2.9){
             nivel=0.010; //no viene la he puesto aproximada
             //calorias=(67.5*minutos)/30;
@@ -270,11 +288,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             nivel=0.0485;
            // calorias=(220*minutos)/30;
         }
-        calorias=(2.2*prefs.getInt("pPeso",0))*minutos*nivel;
-        calorias=Math.round(calorias*10)/10;
-        distRecorrida.setText(distancia+ "m.");
-        velocidadMedia.setText(velocidad+ "km./hora");
-        caloriasConsumidas.setText(calorias+"cal");
+        calorias=(2.2*prefs.getInt("pPeso",70))*minutos*nivel;
+        distRecorrida.setText(distancia+ "m");
+        velocidadMedia.setText(velocidad+ "km/hora");
+        caloriasConsumidas.setText(Math.round(calorias)+"kcal");
         tiempoMedio.setText(calcularTiempo(minutos));
 
     }
@@ -382,4 +399,53 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
+    public void notificacion(){
+        /*Intent i=new Intent(Intent.ACTION_VIEW);
+        PendingIntent pi=PendingIntent.getActivities(this,0,i,0);*/
+
+        NotificationCompat.Builder b=new NotificationCompat.Builder(this);
+        //b.setSmallIcon(R.mipmap.ic_launcher);
+        b.setAutoCancel(true);
+        b.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        b.setContentTitle("¡¡Meta completada!!");
+        b.setContentText("Enhorabuena, has caminado " + mNumSteps + " pasos.");
+
+        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(1,b.build());
+    }
+
+    private void notificar() {
+        NotificationCompat.Builder builder=new NotificationCompat.Builder(this);
+
+        builder
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setTicker("¡¡ENHORABUENA!!")
+                .setWhen(System.currentTimeMillis())
+                .setContentTitle("¡¡Meta completada!!")
+                .setContentText("Enhorabuena, has caminado " + mNumSteps + " pasos.")
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        builder.setVibrate(new long[]{1000, 500, 1000});
+        builder.setLights(Color.CYAN, 1, 0);
+        builder.setAutoCancel(true);
+
+
+        Intent i=new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_TEXT, "Hoy llevo caminados " + mNumSteps + " pasos. Comprueba los tuyos con #MediaHora ");
+        PendingIntent pi=PendingIntent.getActivity(this,0,Intent.createChooser(i, "Compartir con"),PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationManager notifManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+        builder.addAction(android.R.drawable.ic_menu_share, "Compartir", pi);
+        int notif_ref = 1;
+
+        notifManager.notify(notif_ref, builder.build());
+    }
+    private void compartir(){
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, "Hoy llevo caminados " + mNumSteps + " pasos. Comprueba los tuyos con #MediaHora ");
+        startActivity(Intent.createChooser(intent, "Compartir con"));
+    }
 }
