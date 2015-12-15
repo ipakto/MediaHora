@@ -51,12 +51,15 @@
     <string name="pref_categ_pers">Información Personal</string>
     <string name="pref_categ_diseño">Diseño</string>
     <string name="pref_categ_perfil">Perfil</string>
+    <string name="pref_categ_obj">Objetivo</string>
     <string name="desc_calorias">Se usa para mostrar el consumo de calorias</string>
     <string name="desc_nombre">Indique su nombre</string>
     <string name="desc_correo">Indique su correo electrónico</string>
     <string name="pref_dist_desc">Se usa para mostrar la distancia, la velocidad y el consumo de calorias</string>
     <string name="fotoPerfil">Foto de perfil</string>
     <string name="desc_foto">Elija la imagen para su foto de perfil</string>
+    <string name="pref_obj_peso">Peso deseado</string>
+    <string name="pref_obj_tiempo">Tiempo para conseguirlo</string>
 
     <string name="sel_edad">Seleccione su edad</string>
     <string name="sel_peso">Seleccione su peso (kg)</string>
@@ -64,6 +67,8 @@
     <string name="sel_foto">Elija una opción</string>
     <string name="sel_imag">Seleccione app de imagen</string>
     <string name="sel_dist">Seleccione su longitud de zancada (cm)</string>
+    <string name="sel_obj_peso">Seleccione su peso deseado</string>
+    <string name="sel_obj_tiempo">Seleccione el tiempo para conseguirlo</string>
     <string name="tomarFoto">Tomar una foto</string>
     <string name="elegirGaleria">Elegir de galería</string>
     <string name="cancelar">Cancelar</string>

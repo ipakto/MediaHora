@@ -50,4 +50,15 @@
     </PreferenceCategory>
 
 
+    <PreferenceCategory
+        android:key="pref_gen"
+        android:title="@string/pref_categ_obj">
+        <Preference
+            android:key="pObjetivoPeso"
+            android:title="@string/pref_obj_peso"/>
+        <Preference
+            android:key="pObjetivoTiempo"
+            android:title="@string/pref_obj_tiempo"/>
+        </PreferenceCategory>
+
 </PreferenceScreen>

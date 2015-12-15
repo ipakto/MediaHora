@@ -67,6 +67,8 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         findPreference("pAltura").setOnPreferenceClickListener(this);
         findPreference("pPeso").setOnPreferenceClickListener(this);
         findPreference("pDistanciaP").setOnPreferenceClickListener(this);
+        findPreference("pObjetivoPeso").setOnPreferenceClickListener(this);
+        findPreference("pObjetivoTiempo").setOnPreferenceClickListener(this);
         completarCampos();
 
 
@@ -76,6 +78,8 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         findPreference("pNombre").setSummary(prefs.getString("pNombre", getStr(R.string.desc_nombre)));
         findPreference("pCorreo").setSummary(prefs.getString("pCorreo", getStr(R.string.desc_correo)));
         findPreference("pFondoPerf").setSummary(prefs.getString("pFondoPref", getStr(R.string.img_fondo)));
+        findPreference("pObjetivoPeso").setSummary(prefs.getInt("pObjetivoPeso", 5)+" kg.");
+        findPreference("pObjetivoTiempo").setSummary(prefs.getInt("pObjetivoTiempo", 5)+" semanas.");
         /*findPreference("pFoto").setSummary(prefs.getString("pFoto",getStr(R.string.desc_foto)));*/
         getPrefValue("pEdad", prefs, " años");
         findPreference("pSexo").setSummary(prefs.getString("pSexo", getStr(R.string.desc_calorias)));
@@ -241,6 +245,56 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                         np.clearFocus();
                         findPreference("pDistanciaP").getEditor().putInt("pDistanciaP", np.getValue()).commit();
                         preference.setSummary(String.valueOf(np.getValue())+" cm.");
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                break;
+            case R.string.pref_obj_peso:
+                builder = new AlertDialog.Builder(this);
+                np = new NumberPicker(this);
+                np.setMinValue(10);
+                np.setMaxValue(120);
+                np.setValue(prefs.getInt("pObjetivoPeso",prefs.getInt("pPeso",70)));
+                builder.setView(np);
+                builder.setTitle(R.string.sel_obj_peso);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        np.clearFocus();
+                        findPreference("pObjetivoPeso").getEditor().putInt("pObjetivoPeso", np.getValue()).commit();
+                        preference.setSummary(String.valueOf(np.getValue())+" kg.");
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                break;
+            case R.string.pref_obj_tiempo:
+                builder = new AlertDialog.Builder(this);
+                np = new NumberPicker(this);
+                np.setMinValue(1);
+                np.setMaxValue(20);
+                np.setValue(prefs.getInt("pObjetivoTiempo",5));
+                builder.setView(np);
+                builder.setTitle(R.string.sel_obj_tiempo);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        np.clearFocus();
+                        findPreference("pObjetivoTiempo").getEditor().putInt("pObjetivoTiempo", np.getValue()).commit();
+                        preference.setSummary(String.valueOf(np.getValue())+" semanas.");
                         dialog.dismiss();
                     }
                 });
