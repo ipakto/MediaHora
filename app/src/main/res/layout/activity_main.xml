@@ -57,8 +57,6 @@ tools:context=".MainActivity">
             android:layout_width="match_parent"
             android:layout_height="86dp"
             android:weightSum="1"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:id="@+id/LayoutCalVel"
             android:layout_below="@+id/graph">
@@ -70,17 +68,18 @@ tools:context=".MainActivity">
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/averageandtotaltext"
-                android:layout_weight="0.32"
+                android:layout_weight="0.5"
                 android:id="@+id/LayoutCalorias">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:id="@+id/imgCal"
                     android:contentDescription="Icono de calorías"
                     android:src="@drawable/flames8"
                     android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -108,34 +107,36 @@ tools:context=".MainActivity">
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="161dp"
+                android:layout_width="139dp"
                 android:layout_height="70dp"
-                android:layout_weight="0.32"
-                android:id="@+id/LayoutVelocidad">
+                android:id="@+id/LayoutVelocidad"
+                android:layout_weight="0.5">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:id="@+id/imgVel"
                     android:src="@drawable/runer"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp" />
+                    android:layout_marginRight="5dp"
+                    android:layout_gravity="center" />
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/LayoutValoresVel"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:gravity="center">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="64dp"
                         android:layout_height="wrap_content"
                         android:text="@string/lblVelocidad"
                         android:id="@+id/lblVelocidad" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="6km/h"
                         android:id="@+id/txtVelocidad"
@@ -162,17 +163,18 @@ tools:context=".MainActivity">
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/averageandtotaltext"
-                android:layout_weight="0.32"
+                android:layout_weight="0.5"
                 android:id="@+id/layoutDist" >
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:id="@+id/imgDist"
                     android:contentDescription="Icono de calorías"
                     android:src="@drawable/ruler13"
                     android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -201,16 +203,17 @@ tools:context=".MainActivity">
                 android:orientation="horizontal"
                 android:layout_width="161dp"
                 android:layout_height="70dp"
-                android:layout_weight="0.32"
+                android:layout_weight="0.5"
                 android:id="@+id/layoutTiempo" >
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
                     android:id="@+id/imgTiempo"
                     android:src="@drawable/stopwatch"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp" />
+                    android:layout_marginRight="5dp"
+                    android:layout_gravity="center" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -226,7 +229,7 @@ tools:context=".MainActivity">
                         android:id="@+id/lblTiempo" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="91dp"
                         android:layout_height="wrap_content"
                         android:text="00:05:27"
                         android:id="@+id/txtTiempo"
@@ -241,8 +244,11 @@ tools:context=".MainActivity">
             android:layout_height="wrap_content"
             android:text="BTN"
             android:id="@+id/btnPaso"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_above="@+id/LayoutCalVel"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="35dp"
+            android:layout_marginStart="35dp" />
 
     </RelativeLayout>
 

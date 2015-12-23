@@ -260,7 +260,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                 builder = new AlertDialog.Builder(this);
                 np = new NumberPicker(this);
                 np.setMinValue(10);
-                np.setMaxValue(120);
+                np.setMaxValue(prefs.getInt("pPeso",70));
                 np.setValue(prefs.getInt("pObjetivoPeso",prefs.getInt("pPeso",70)));
                 builder.setView(np);
                 builder.setTitle(R.string.sel_obj_peso);

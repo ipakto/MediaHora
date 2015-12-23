@@ -37,6 +37,8 @@ import android.widget.Toast;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.text.DecimalFormat;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Sensor mStepCounterSensor;
     private Sensor mStepDetectorSensor;
     private int mNumSteps=0;
+    private long tiempos[]=new long [3];
     private ConectorBD conectorBD;
 
     //Defining Variables NavBar
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
         iniciarGrafico();
+        tiempos[0]=Util.getToday();
         PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("pCambia",true).commit();
         cargarPreferencias();
         //NAVIGATION BAR
@@ -237,7 +241,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
        fragmentTransaction.replace(R.id.frame, fragment);
        fragmentTransaction.commit();
    }
-
+    @Bind(R.id.txtDist) TextView distRecorrida;
+    @Bind(R.id.txtCalorias) TextView caloriasConsumidas;
+    @Bind (R.id.txtTiempo) TextView tiempoMedio;
+    @Bind (R.id.txtVelocidad) TextView velocidadMedia;
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -247,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
             case Sensor.TYPE_STEP_COUNTER:
                 mNumSteps = (int) sensorEvent.values[0];
+                comprobarTiempo();
                 realizarCalculos(mNumSteps);
                 break;
         }
@@ -255,27 +263,38 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         actualizarGrafico();
     }
+
+
+    public void comprobarTiempo(){
+        //tiempos[1]=Util.getToday();
+        tiempos[1]=System.currentTimeMillis();
+        long res=tiempos[1]-tiempos[0];
+        if(res<5000){
+            tiempos[2]+=res;
+        }
+        tiempos[0]=tiempos[1];
+
+    }
     public void sensorSimulado(){
         mNumSteps += 1;
+        comprobarTiempo();
         realizarCalculos(mNumSteps);
-
         mStepsText.setText(String.valueOf(mNumSteps));
         actualizarGrafico();
     }
-    @Bind(R.id.txtDist) TextView distRecorrida;
-    @Bind(R.id.txtCalorias) TextView caloriasConsumidas;
-    @Bind (R.id.txtTiempo) TextView tiempoMedio;
-    @Bind (R.id.txtVelocidad) TextView velocidadMedia;
+
     //Valor de las calorias: http://es.calcuworld.com/deporte-y-ejercicio/calculadora-de-calorias-quemadas/
-    double minutos=1;
+   //double minutos=1;
     public void realizarCalculos(int steps){
         int lZancada=0,distancia;
         double velocidad , calorias, nivel;
+        double tiempo=tiempos[2]/1000; //Tiempo en segundos
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         lZancada=prefs.getInt("pDistanciaP", 65); // en cm
         distancia=(int)(steps*lZancada*0.01); //pasada a metros
-       // velocidad=(distancia/1000)/(minutos/60); //pasada a kilometros/hora
-        velocidad=1;
+//        velocidad=(distancia/1000.0)/((tiempo/60)); //pasada a kilometros/hora
+        velocidad=(distancia/tiempo)*3.6;
+        //velocidad=1;
         if (velocidad <= 2.9){
             nivel=0.010; //no viene la he puesto aproximada
             //calorias=(67.5*minutos)/30;
@@ -289,21 +308,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             nivel=0.0485;
            // calorias=(220*minutos)/30;
         }
-        minutos+=.1;
-        calorias=(2.2*prefs.getInt("pPeso",70))*minutos*nivel;
+      //  minutos+=.1;
+        calorias=((2.2*prefs.getInt("pPeso",70))*tiempo*nivel)/1000;
         distRecorrida.setText(distancia+ "m");
-        velocidadMedia.setText(velocidad+ "km/hora");
-        caloriasConsumidas.setText(Math.round(calorias)+"kcal");
-        tiempoMedio.setText(calcularTiempo((int)minutos));
+        DecimalFormat df= new DecimalFormat("0.0");
+        velocidadMedia.setText(df.format(velocidad)+ "km/h");
+        caloriasConsumidas.setText(df.format(calorias)+"kcal");
+        tiempoMedio.setText(calcularTiempo(tiempos[2]));
 
     }
-    public String calcularTiempo(int minutos){
+    public String calcularTiempo(long milis){
         int h,m,s;
         String hFinal,mFinal,sFinal;
-        s=minutos*60;
+        s=(int) milis/1000;
         h=s/3600;
-        m=h-(s/3600)*60;
-        s=m-(h-(s/3600)*60)*60;
+        /*m=h-(s/3600)*60;
+        s=m-(((h-(s/3600))*60)*60);*/
+        m=(s%3600)/60;//(s-(h*3600))/60;
+        s-=(h*3600+m*60);
         if (h < 10) {
             hFinal="0"+h;
         }else{
