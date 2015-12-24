@@ -55,7 +55,7 @@ tools:context=".MainActivity">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="86dp"
+            android:layout_height="76dp"
             android:weightSum="1"
             android:layout_marginTop="20dp"
             android:id="@+id/LayoutCalVel"
@@ -63,8 +63,8 @@ tools:context=".MainActivity">
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="162dp"
-                android:layout_height="71dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/averageandtotaltext"
@@ -79,20 +79,23 @@ tools:context=".MainActivity">
                     android:src="@drawable/flames8"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:layout_weight="0.25" />
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/LayoutValoresCal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.7">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lblCalorias"
-                        android:id="@+id/lblCalorias" />
+                        android:id="@+id/lblCalorias"
+                        android:layout_marginLeft="5px" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -100,15 +103,16 @@ tools:context=".MainActivity">
                         android:id="@+id/txtCalorias"
                         android:text="37 kcal"
                         android:textStyle="bold"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:layout_marginLeft="5px" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="139dp"
-                android:layout_height="70dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/LayoutVelocidad"
                 android:layout_weight="0.5">
 
@@ -119,7 +123,8 @@ tools:context=".MainActivity">
                     android:src="@drawable/runer"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:layout_weight="0.25" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -127,13 +132,15 @@ tools:context=".MainActivity">
                     android:layout_height="wrap_content"
                     android:id="@+id/LayoutValoresVel"
                     android:layout_marginTop="10dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_weight="0.7">
 
                     <TextView
-                        android:layout_width="64dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/lblVelocidad"
-                        android:id="@+id/lblVelocidad" />
+                        android:id="@+id/lblVelocidad"
+                        android:layout_marginLeft="5px" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -141,7 +148,8 @@ tools:context=".MainActivity">
                         android:text="6km/h"
                         android:id="@+id/txtVelocidad"
                         android:textStyle="bold"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:layout_marginLeft="5px" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -150,7 +158,7 @@ tools:context=".MainActivity">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="86dp"
+            android:layout_height="76dp"
             android:weightSum="1"
             android:layout_below="@+id/LayoutCalVel"
             android:layout_centerHorizontal="true"
@@ -159,7 +167,7 @@ tools:context=".MainActivity">
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="162dp"
-                android:layout_height="71dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/averageandtotaltext"
@@ -174,20 +182,23 @@ tools:context=".MainActivity">
                     android:src="@drawable/ruler13"
                     android:layout_marginRight="5dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:layout_weight="0.25" />
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/layoutValoresDist"
-                    android:layout_marginTop="10dp" >
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.7">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lblDist"
-                        android:id="@+id/lblDist" />
+                        android:id="@+id/lblDist"
+                        android:layout_marginLeft="5px" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -195,14 +206,15 @@ tools:context=".MainActivity">
                         android:id="@+id/txtDist"
                         android:text="300m"
                         android:textStyle="bold"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:layout_marginLeft="5px" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="161dp"
-                android:layout_height="70dp"
+                android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:id="@+id/layoutTiempo" >
 
@@ -213,20 +225,23 @@ tools:context=".MainActivity">
                     android:src="@drawable/stopwatch"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:layout_weight="0.25" />
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/layoutValoresTiem"
-                    android:layout_marginTop="10dp" >
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.7">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/lblTiempo"
-                        android:id="@+id/lblTiempo" />
+                        android:id="@+id/lblTiempo"
+                        android:layout_marginLeft="5px" />
 
                     <TextView
                         android:layout_width="91dp"
@@ -234,7 +249,8 @@ tools:context=".MainActivity">
                         android:text="00:05:27"
                         android:id="@+id/txtTiempo"
                         android:textStyle="bold"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:layout_marginLeft="5px" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
