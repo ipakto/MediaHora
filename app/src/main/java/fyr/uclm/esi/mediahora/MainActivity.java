@@ -45,6 +45,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import fyr.uclm.esi.mediahora.naview.ContentFragment;
 import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
+import fyr.uclm.esi.mediahora.dominio.Util;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         conectorBD = new ConectorBD(this);
         conectorBD.abrir();
-        conectorBD.insertarValor(Util.getToday(), 27);
+        conectorBD.insertarValor(System.currentTimeMillis(), 27);
         conectorBD.cerrar();
         Toast.makeText(getBaseContext(), "Se añadió una nueva entrada a la BD!", Toast.LENGTH_SHORT).show();
 
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
         iniciarGrafico();
-        tiempos[0]=Util.getToday();
+        tiempos[0]=System.currentTimeMillis();
         PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("pCambia",true).commit();
         cargarPreferencias();
         //NAVIGATION BAR
@@ -235,12 +236,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void cambiarFragment(int id){
-       ContentFragment fragment = new ContentFragment();
-       fragment.setLayout(id);
-       android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-       fragmentTransaction.replace(R.id.frame, fragment);
-       fragmentTransaction.commit();
-   }
+        ContentFragment fragment = new ContentFragment();
+        fragment.setLayout(id);
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fragment);
+        fragmentTransaction.commit();
+    }
     @Bind(R.id.txtDist) TextView distRecorrida;
     @Bind(R.id.txtCalorias) TextView caloriasConsumidas;
     @Bind (R.id.txtTiempo) TextView tiempoMedio;
@@ -284,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     //Valor de las calorias: http://es.calcuworld.com/deporte-y-ejercicio/calculadora-de-calorias-quemadas/
-   //double minutos=1;
+    //double minutos=1;
     public void realizarCalculos(int steps){
         int lZancada=0,distancia;
         double velocidad , calorias, nivel;
@@ -300,49 +301,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //calorias=(67.5*minutos)/30;
         }else if(velocidad>3.0 && velocidad <=4.7){
             nivel=0.026;
-          //  calorias=(150*minutos)/30;
+            //  calorias=(150*minutos)/30;
         }else if(velocidad> 4.8 && velocidad <= 6.0){
             nivel=0.035;
-           // calorias=(180*minutos)/30;
+            // calorias=(180*minutos)/30;
         }else{
             nivel=0.0485;
-           // calorias=(220*minutos)/30;
+            // calorias=(220*minutos)/30;
         }
-      //  minutos+=.1;
+        //  minutos+=.1;
         calorias=((2.2*prefs.getInt("pPeso",70))*tiempo*nivel)/1000;
         distRecorrida.setText(distancia+ "m");
         DecimalFormat df= new DecimalFormat("0.0");
         velocidadMedia.setText(df.format(velocidad)+ "km/h");
         caloriasConsumidas.setText(df.format(calorias)+"kcal");
-        tiempoMedio.setText(calcularTiempo(tiempos[2]));
+        tiempoMedio.setText(Util.calcularTiempo(tiempos[2]));
 
     }
-    public String calcularTiempo(long milis){
-        int h,m,s;
-        String hFinal,mFinal,sFinal;
-        s=(int) milis/1000;
-        h=s/3600;
-        /*m=h-(s/3600)*60;
-        s=m-(((h-(s/3600))*60)*60);*/
-        m=(s%3600)/60;//(s-(h*3600))/60;
-        s-=(h*3600+m*60);
-        if (h < 10) {
-            hFinal="0"+h;
-        }else{
-            hFinal=""+h;
-        }
-        if (m < 10) {
-            mFinal="0"+m;
-        }else{
-           mFinal=""+m;
-        }
-        if (s < 10) {
-            sFinal="0"+s;
-        }else{
-            sFinal=""+s;
-        }
-        return hFinal+":"+mFinal+":"+sFinal;
-    }
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
@@ -374,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
 
         }
-    return true;
+        return true;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

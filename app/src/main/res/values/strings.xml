@@ -68,7 +68,7 @@
     <string name="sel_imag">Seleccione app de imagen</string>
     <string name="sel_dist">Seleccione su longitud de zancada (cm)</string>
     <string name="sel_obj_peso">Seleccione su peso deseado</string>
-    <string name="sel_obj_tiempo">Seleccione el tiempo para conseguirlo</string>
+    <string name="sel_obj_tiempo">¿Cumplirás tu objetivo en </string>
     <string name="tomarFoto">Tomar una foto</string>
     <string name="elegirGaleria">Elegir de galería</string>
     <string name="cancelar">Cancelar</string>
@@ -77,13 +77,15 @@
     <string name="lblVelocidad">V. media</string>
     <string name="lblDist">Distancia</string>
     <string name="lblTiempo">Tiempo</string>
+    <string name="acepto">¡A por ello!</string>
+    <string name="noAcepto">Cambiar objetivo</string>
 
 
     <string-array name="pref_fondo_nombre">
-    <item>Fondo1</item>
-    <item>Fondo2</item>
-    <item>Fondo3</item>
-</string-array>
+        <item>Fondo1</item>
+        <item>Fondo2</item>
+        <item>Fondo3</item>
+    </string-array>
     <string-array name="pref_fondo_val">
         <item>Fondo1</item>
         <item>Fondo2</item>

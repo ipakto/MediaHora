@@ -28,11 +28,13 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.prefs.Preferences;
 
 import butterknife.Bind;
+import fyr.uclm.esi.mediahora.dominio.Util;
 
 /**
  * Created by Paco on 28/11/2015.
@@ -68,7 +70,6 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         findPreference("pPeso").setOnPreferenceClickListener(this);
         findPreference("pDistanciaP").setOnPreferenceClickListener(this);
         findPreference("pObjetivoPeso").setOnPreferenceClickListener(this);
-        findPreference("pObjetivoTiempo").setOnPreferenceClickListener(this);
         completarCampos();
 
 
@@ -79,7 +80,6 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         findPreference("pCorreo").setSummary(prefs.getString("pCorreo", getStr(R.string.desc_correo)));
         findPreference("pFondoPerf").setSummary(prefs.getString("pFondoPref", getStr(R.string.img_fondo)));
         findPreference("pObjetivoPeso").setSummary(prefs.getInt("pObjetivoPeso", 5)+" kg.");
-        findPreference("pObjetivoTiempo").setSummary(prefs.getInt("pObjetivoTiempo", 5)+" semanas.");
         /*findPreference("pFoto").setSummary(prefs.getString("pFoto",getStr(R.string.desc_foto)));*/
         getPrefValue("pEdad", prefs, " años");
         findPreference("pSexo").setSummary(prefs.getString("pSexo", getStr(R.string.desc_calorias)));
@@ -269,8 +269,10 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                     public void onClick(DialogInterface dialog, int which) {
                         np.clearFocus();
                         findPreference("pObjetivoPeso").getEditor().putInt("pObjetivoPeso", np.getValue()).commit();
-                        preference.setSummary(String.valueOf(np.getValue())+" kg.");
-                        dialog.dismiss();
+                        if(calcularObjetivo()){
+                            preference.setSummary(String.valueOf(np.getValue()) + " kg.");
+                            dialog.dismiss();
+                        }
                     }
                 });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -281,31 +283,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                 });
                 builder.show();
                 break;
-            case R.string.pref_obj_tiempo:
-                builder = new AlertDialog.Builder(this);
-                np = new NumberPicker(this);
-                np.setMinValue(1);
-                np.setMaxValue(20);
-                np.setValue(prefs.getInt("pObjetivoTiempo",5));
-                builder.setView(np);
-                builder.setTitle(R.string.sel_obj_tiempo);
-                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        np.clearFocus();
-                        findPreference("pObjetivoTiempo").getEditor().putInt("pObjetivoTiempo", np.getValue()).commit();
-                        preference.setSummary(String.valueOf(np.getValue())+" semanas.");
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.show();
-                break;
+
             default:
               /*  cambiaPreferencias();*/
                 break;
@@ -371,7 +349,30 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         }
 
     }
+    private boolean calcularObjetivo(){
+        double tiempo=Util.calcularTiempoMeta(this);
+        final boolean[] factible = new boolean[1];
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        DecimalFormat df= new DecimalFormat("0.0");
+        builder.setTitle(getStr(R.string.sel_obj_tiempo) + " " + df.format(tiempo) + " sesiones de 30mins.?");
+        builder.setPositiveButton(R.string.acepto, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                factible[0] =true;
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.noAcepto, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+                factible[0] = false;
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+        return factible[0];
+    }
     private void cambiaPreferencias() {
         SharedPreferences p=PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor e=p.edit();
