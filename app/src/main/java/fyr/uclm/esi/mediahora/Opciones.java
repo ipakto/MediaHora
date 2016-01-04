@@ -269,10 +269,10 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                     public void onClick(DialogInterface dialog, int which) {
                         np.clearFocus();
                         findPreference("pObjetivoPeso").getEditor().putInt("pObjetivoPeso", np.getValue()).commit();
-                        if(calcularObjetivo()){
-                            preference.setSummary(String.valueOf(np.getValue()) + " kg.");
-                            dialog.dismiss();
-                        }
+                        preference.setSummary(String.valueOf(np.getValue()) + " kg.");
+                        dialog.dismiss();
+                        calcularObjetivo();
+
                     }
                 });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -349,29 +349,27 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         }
 
     }
-    private boolean calcularObjetivo(){
+    private void calcularObjetivo(){
         double tiempo=Util.calcularTiempoMeta(this);
-        final boolean[] factible = new boolean[1];
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         DecimalFormat df= new DecimalFormat("0.0");
         builder.setTitle(getStr(R.string.sel_obj_tiempo) + " " + df.format(tiempo) + " sesiones de 30mins.?");
         builder.setPositiveButton(R.string.acepto, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                factible[0] =true;
                 dialog.dismiss();
             }
         });
-        builder.setNegativeButton(R.string.noAcepto, new DialogInterface.OnClickListener() {
+        /*builder.setNegativeButton(R.string.noAcepto, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
                 factible[0] = false;
                 dialog.dismiss();
             }
-        });
+        });*/
         builder.show();
-        return factible[0];
+       // return factible[0];
     }
     private void cambiaPreferencias() {
         SharedPreferences p=PreferenceManager.getDefaultSharedPreferences(this);

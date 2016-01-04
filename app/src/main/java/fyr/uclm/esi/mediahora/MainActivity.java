@@ -18,6 +18,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.NotificationCompat;
@@ -37,6 +38,11 @@ import android.widget.Toast;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 
 import butterknife.Bind;
@@ -86,11 +92,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        conectorBD = new ConectorBD(this);
-        conectorBD.abrir();
-        conectorBD.insertarValor(System.currentTimeMillis(), 27);
-        conectorBD.cerrar();
-        Toast.makeText(getBaseContext(), "Se añadió una nueva entrada a la BD!", Toast.LENGTH_SHORT).show();
+
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mStepCounterSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
@@ -167,10 +169,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         return true;
                     case R.id.acerca:
                         Toast.makeText(getApplicationContext(),"Acerca Selected",Toast.LENGTH_SHORT).show();
-                        notificar();
+                        startActivity(new Intent(MainActivity.this, AcercaDe.class));
+
                         return true;
                     case R.id.faq:
                         Toast.makeText(getApplicationContext(),"FAQ Selected",Toast.LENGTH_SHORT).show();
+                        insertarEnBD();
+                        try {
+                            copiaBD();
+                        }catch(Exception e){}
                         return true;
                     default:
                         Toast.makeText(getApplicationContext(),"Somethings Wrong",Toast.LENGTH_SHORT).show();
@@ -211,6 +218,56 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         fragmentTransaction.commit();
 
     }
+    private void insertarEnBD(){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        conectorBD = new ConectorBD(this);
+        conectorBD.abrir();
+        float kcal=prefs.getFloat("calorias",0);
+        float velocidad=prefs.getFloat("velocidad",0);
+        int tiempo=prefs.getInt("tiempo",0);
+        int distancia=prefs.getInt("distancia",0);
+        int pasos=prefs.getInt("pasos",0);
+        //conectorBD.insertarValor(System.currentTimeMillis(), 27,prefs.getFloat("kcal",0),prefs.getInt("tiempo",0),prefs.getFloat("velocidad",0),prefs.getInt("distancia",0));
+        conectorBD.insertarValor(System.currentTimeMillis(),pasos,kcal,tiempo,velocidad,distancia);
+        conectorBD.cerrar();
+        Toast.makeText(getBaseContext(), "Se añadió una nueva entrada a la BD!", Toast.LENGTH_SHORT).show();
+
+        prefs.edit().putFloat("calorias", 0).commit();
+        prefs.edit().putInt("distancia", 0).commit();
+        prefs.edit().putFloat("velocidad", 0).commit();
+        prefs.edit().putInt("tiempo", 0).commit();
+        prefs.edit().putInt("pasos", 0).commit();
+    }
+    private void copiaBD () throws IOException {
+
+
+            final String inFileName = "/data/data/fyr.uclm.esi.mediahora/databases/PasosRealizados";
+            File dbFile = new File(inFileName);
+            FileInputStream fis = null;
+
+            fis = new FileInputStream(dbFile);
+
+            String directorio = "/storage/emulated/0/mediaHora/media/BBDD";
+            File d = new File(directorio);
+            if (!d.exists()) {
+                d.mkdir();
+            }
+            String outFileName = directorio+"/PasosRealizados" ;
+
+            OutputStream output = new FileOutputStream(outFileName);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fis.read(buffer)) > 0) {
+                output.write(buffer, 0, length);
+            }
+
+            output.flush();
+            output.close();
+            fis.close();
+
+        }
+
 
     private void iniciarGrafico() {
         sliceCurrent = new PieModel("", 0, Color.parseColor("#99CC00"));
@@ -255,6 +312,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
             case Sensor.TYPE_STEP_COUNTER:
                 mNumSteps = (int) sensorEvent.values[0];
+                if(mNumSteps==1){
+                    insertarEnBD();
+                }
                 comprobarTiempo();
                 realizarCalculos(mNumSteps);
                 break;
@@ -301,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //calorias=(67.5*minutos)/30;
         }else if(velocidad>3.0 && velocidad <=4.7){
             nivel=0.026;
-            //  calorias=(150*minutos)/30;
+            //  calorias=(150*minutos)/30   ;
         }else if(velocidad> 4.8 && velocidad <= 6.0){
             nivel=0.035;
             // calorias=(180*minutos)/30;
@@ -312,10 +372,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         //  minutos+=.1;
         calorias=((2.2*prefs.getInt("pPeso",70))*tiempo*nivel)/1000;
         distRecorrida.setText(distancia+ "m");
-        DecimalFormat df= new DecimalFormat("0.0");
-        velocidadMedia.setText(df.format(velocidad)+ "km/h");
+        DecimalFormat df = new DecimalFormat("0.0");
+        velocidadMedia.setText(df.format(velocidad) + "km/h");
         caloriasConsumidas.setText(df.format(calorias)+"kcal");
         tiempoMedio.setText(Util.calcularTiempo(tiempos[2]));
+        prefs.edit().putFloat("calorias", (float) calorias).commit();
+        prefs.edit().putInt("distancia", distancia).commit();
+        prefs.edit().putFloat("velocidad", (float)velocidad).commit();
+        prefs.edit().putInt("tiempo", (int)tiempos[2]).commit();
+        prefs.edit().putInt("pasos", steps).commit();
 
     }
 

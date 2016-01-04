@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ValoresSQLiteHelper extends SQLiteOpenHelper {
     //Sentencia SQL para crear la tabla de Usuarios 
-    String sqlCrearTabla = "CREATE TABLE Valores(_id INTEGER PRIMARY KEY AUTOINCREMENT, " + "fecha INTEGER, pasos INTEGER)";
+    String sqlCrearTabla = "CREATE TABLE Valores(_id INTEGER PRIMARY KEY AUTOINCREMENT, " + "fecha INTEGER, pasos INTEGER,kcal DOUBLE, tiempo INTEGER, velocidad DOUBLE, distancia INTEGER)";
 
     public ValoresSQLiteHelper(Context contexto, String nombreBD, SQLiteDatabase.CursorFactory factory, int versionBD) {
         super(contexto, nombreBD, factory, versionBD);

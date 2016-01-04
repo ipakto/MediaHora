@@ -11,10 +11,14 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class ConectorBD {
     static final String NOMBRE_BD = "PasosRealizados";
-    static final String NOMBRE_TABLA = "Paos";
+    static final String NOMBRE_TABLA = "Valores";
     static final String COLUMNA_ID = "_id";
     static final String COLUMNA_FECHA = "fecha";
     static final String COLUMNA_PASOS = "pasos";
+    static final String COLUMNA_KCAL = "kcal";
+    static final String COLUMNA_TIEMPO = "tiempo";
+    static final String COLUMNA_VELOCIDAD = "velocidad";
+    static final String COLUMNA_DISTANCIA = "distancia";
     private ValoresSQLiteHelper dbHelper;
     private SQLiteDatabase db;
 
@@ -34,15 +38,20 @@ public class ConectorBD {
         if (db != null) db.close();
     }
     //inserta una tarea en la BD
-    public long insertarValor(long fecha, int pasos) {
+    public long insertarValor(long fecha, int pasos,double kcal, int tiempo,double velocidad, int distancia) {
         ContentValues nuevoValor = new ContentValues();
         nuevoValor.put(COLUMNA_FECHA, fecha);
         nuevoValor.put(COLUMNA_PASOS, pasos);
+        nuevoValor.put(COLUMNA_KCAL, kcal);
+        nuevoValor.put(COLUMNA_TIEMPO, tiempo);
+        nuevoValor.put(COLUMNA_VELOCIDAD, velocidad);
+        nuevoValor.put(COLUMNA_DISTANCIA, distancia);
         return db.insert(NOMBRE_TABLA, null, nuevoValor);
     }
     //devuelve todas las tareas public
-        Cursor obtenerTodosValores() {
-            return db.query(NOMBRE_TABLA, new String[] {COLUMNA_ID, COLUMNA_FECHA, COLUMNA_PASOS}, null, null, null, null, null);
+        public Cursor obtenerTodosValores() {
+            //return db.rawQuery("SELECT * FROM Valores",null);
+            return db.query(NOMBRE_TABLA, new String[] {COLUMNA_FECHA, COLUMNA_PASOS,COLUMNA_KCAL,COLUMNA_TIEMPO,COLUMNA_VELOCIDAD,COLUMNA_DISTANCIA}, null, null, null, null, null);
         }
     //borra una tarea
         public boolean borrarTarea(long numFila) {

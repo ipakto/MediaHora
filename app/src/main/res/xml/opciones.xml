@@ -56,9 +56,6 @@
         <Preference
             android:key="pObjetivoPeso"
             android:title="@string/pref_obj_peso"/>
-        <Preference
-            android:key="pObjetivoTiempo"
-            android:title="@string/pref_obj_tiempo"/>
         </PreferenceCategory>
 
 </PreferenceScreen>

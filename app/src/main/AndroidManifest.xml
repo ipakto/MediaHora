@@ -23,6 +23,7 @@
         <activity android:name=".InfoUsuario"/>
         <activity android:name=".Stats"/>
         <activity android:name=".Opciones"/>
+        <activity android:name=".AcercaDe"/>
     </application>
 
 </manifest>

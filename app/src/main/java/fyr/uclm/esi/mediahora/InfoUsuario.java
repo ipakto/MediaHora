@@ -24,9 +24,6 @@ public class InfoUsuario extends Activity
     @Bind(R.id.tAltura) TextView tAltura;
     @Bind(R.id.tZancada) TextView tZancada;
     @Bind(R.id.tPeso) TextView tPeso;
-    @Bind(R.id.lblAltura) TextView lblAltura;
-    @Bind(R.id.lblPeso) TextView lblPeso;
-    @Bind(R.id.lblZancada) TextView lblZancada;
     @Bind(R.id.fotoPerfil) CircleImageView fotoPerf;
 
     @Override

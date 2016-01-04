@@ -21,7 +21,7 @@ tools:context=".MainActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Estadísticas"
+        android:text="Estadísticas globales"
         android:id="@+id/lblEstad"
         android:textStyle="bold"
         android:textAllCaps="false"
@@ -41,15 +41,58 @@ tools:context=".MainActivity">
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
+            android:id="@+id/layoutPasos"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgPasos"
+                android:src="@drawable/pasos"
+                android:layout_gravity="center" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/linearLayout3"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pasos"
+                    android:id="@+id/textView4" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="17652"
+                    android:id="@+id/txtPasosTotales"
+                    android:textStyle="bold"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:id="@+id/layoutCalVelT">
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_weight=".5">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="44dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imgCal"
                     android:src="@drawable/flames8" />
@@ -64,13 +107,13 @@ tools:context=".MainActivity">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Calorias totales"
+                        android:text="Calorias"
                         android:id="@+id/lblCalTotales" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="387 cal"
+                        android:text="387 kcal"
                         android:id="@+id/txtCalTotales"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -82,10 +125,10 @@ tools:context=".MainActivity">
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp">
+                android:layout_weight=".5">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="44dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imgVelTotal"
                     android:src="@drawable/runer" />
@@ -100,7 +143,7 @@ tools:context=".MainActivity">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Velocidad total"
+                        android:text="Velocidad"
                         android:id="@+id/lblVelTotal" />
 
                     <TextView
@@ -126,11 +169,11 @@ tools:context=".MainActivity">
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:id="@+id/layoutDistTotal">
+                android:id="@+id/layoutDistTotal"
+                android:layout_weight=".5">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="44dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imgDistTot"
                     android:src="@drawable/road29" />
@@ -145,7 +188,7 @@ tools:context=".MainActivity">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="DistanciaTotal"
+                        android:text="Distancia"
                         android:id="@+id/lblDistTotal" />
 
                     <TextView
@@ -162,11 +205,11 @@ tools:context=".MainActivity">
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:id="@+id/layoutTiempT">
+                android:id="@+id/layoutTiempT"
+                android:layout_weight=".5">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:layout_width="44dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/imgTiempoTotal"
                     android:src="@drawable/stopwatch" />
@@ -181,7 +224,7 @@ tools:context=".MainActivity">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tiempo total"
+                        android:text="Tiempo"
                         android:id="@+id/lblTiempoTotal" />
 
                     <TextView

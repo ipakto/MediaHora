@@ -80,6 +80,13 @@
     <string name="acepto">¡A por ello!</string>
     <string name="noAcepto">Cambiar objetivo</string>
 
+    <string name="lblCopyR">© 2016</string>
+    <string name="lblNombreApp">30 minutos 1.0</string>
+    <string name="lblComp1">- Francisco Ruiz Romero</string>
+    <string name="lblComp2">- Rosana Rguez-Bobada Aranda</string>
+    <string name="lblAsignatura">Multimedia</string>
+    <string name="lblEscuela">Escuela Superior de Informática</string>
+
 
     <string-array name="pref_fondo_nombre">
         <item>Fondo1</item>
