@@ -1,8 +1,10 @@
 package fyr.uclm.esi.mediahora;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -28,7 +30,7 @@ public class Stats extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.estadisticas);
         ButterKnife.bind(this);
-
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         ConectorBD bd=new ConectorBD(this);
         bd.abrir();
         Cursor c=bd.obtenerTodosValores();
@@ -43,6 +45,10 @@ public class Stats extends Activity
                 distancia+=c.getInt(5);
             } while(c.moveToNext());
         }
+        pasos+=prefs.getInt("pasos",0);
+        kcal+=prefs.getFloat("calorias",0);
+        tiempo+=prefs.getInt("tiempo",0);
+        distancia+=prefs.getInt("distancia",0);
         velocidad=(distancia*1000/tiempo)*3.6;
         pasosR.setText(String.valueOf(pasos));
         distanciaR.setText(distancia+ "m");

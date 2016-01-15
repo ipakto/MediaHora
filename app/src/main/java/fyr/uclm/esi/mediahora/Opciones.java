@@ -360,16 +360,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                 dialog.dismiss();
             }
         });
-        /*builder.setNegativeButton(R.string.noAcepto, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                factible[0] = false;
-                dialog.dismiss();
-            }
-        });*/
         builder.show();
-       // return factible[0];
     }
     private void cambiaPreferencias() {
         SharedPreferences p=PreferenceManager.getDefaultSharedPreferences(this);

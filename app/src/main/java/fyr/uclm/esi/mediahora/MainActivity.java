@@ -57,6 +57,7 @@ import fyr.uclm.esi.mediahora.dominio.Util;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private int contador = 0;
     private int meta=50;
+    private int metaDiaria=30000;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     // Layout components
@@ -101,7 +102,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         iniciarGrafico();
         tiempos[0]=System.currentTimeMillis();
         PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("pCambia",true).commit();
+
         cargarPreferencias();
+        cargarValores();
         //NAVIGATION BAR
 
         b.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         return true;
                     case R.id.faq:
                         Toast.makeText(getApplicationContext(),"FAQ Selected",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this,FAQ.class));
                         insertarEnBD();
                         try {
                             copiaBD();
@@ -274,7 +278,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         pg.addPieSlice(sliceCurrent);
 
         // Pasos restantes para alcanzar la meta
-        sliceGoal = new PieModel("", meta, Color.parseColor("#CC0000"));
+        // sliceGoal = new PieModel("", meta, Color.parseColor("#CC0000"));
+        sliceGoal = new PieModel("", 1800000, Color.parseColor("#CC0000"));
         pg.addPieSlice(sliceGoal);
         pg.setDrawValueInPie(false);
         pg.setUsePieRotation(true);
@@ -282,9 +287,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void actualizarGrafico(){
-        sliceCurrent.setValue(mNumSteps);
+       /* sliceCurrent.setValue(mNumSteps);
         if(meta-mNumSteps>0){
             sliceGoal.setValue(meta-mNumSteps);
+        }else{
+            sliceGoal.setValue(0);
+            notificar();
+        }
+        pg.update();*/
+        sliceCurrent.setValue(tiempos[2]);
+        if(metaDiaria-tiempos[2]>0){
+            sliceGoal.setValue(metaDiaria-tiempos[2]);
         }else{
             sliceGoal.setValue(0);
             notificar();
@@ -311,8 +324,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 contador++;
                 break;
             case Sensor.TYPE_STEP_COUNTER:
-                mNumSteps = (int) sensorEvent.values[0];
-                if(mNumSteps==1){
+                //Este primer if borrar cuando no esté el simulador yh descomentar lo comentado
+                //mNumSteps = (int) sensorEvent.values[0];
+                if((mNumSteps-(int)sensorEvent.values[0])<3){
+                    mNumSteps=(int) sensorEvent.values[0];
+                }
+                if(mNumSteps==0){
                     insertarEnBD();
                 }
                 comprobarTiempo();
@@ -343,7 +360,22 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepsText.setText(String.valueOf(mNumSteps));
         actualizarGrafico();
     }
-
+    public void cargarValores(){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        int pasos=prefs.getInt("pasos", 0);
+        float kcal=prefs.getFloat("calorias", 0);
+        int tiempo=prefs.getInt("tiempo", 0);
+        int distancia=prefs.getInt("distancia",0);
+        float velocidad=prefs.getFloat("velocidad", 0);
+        tiempos[2]=tiempo;
+        mNumSteps=pasos;
+        distRecorrida.setText(distancia+ "m");
+        DecimalFormat df = new DecimalFormat("0.0");
+        velocidadMedia.setText(df.format(velocidad) + "km/h");
+        caloriasConsumidas.setText(df.format(kcal)+"kcal");
+        tiempoMedio.setText(Util.calcularTiempo(tiempo));
+        actualizarGrafico();
+    }
     //Valor de las calorias: http://es.calcuworld.com/deporte-y-ejercicio/calculadora-de-calorias-quemadas/
     //double minutos=1;
     public void realizarCalculos(int steps){
@@ -394,6 +426,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager.registerListener(this, mStepCounterSensor, SensorManager.SENSOR_DELAY_FASTEST);
         mSensorManager.registerListener(this, mStepDetectorSensor, SensorManager.SENSOR_DELAY_FASTEST);
         cargarPreferencias();
+        cargarValores();
     }
     //Menu
     @Override
@@ -463,6 +496,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             prefs.edit().putBoolean("pCambia",false).commit();
         }
     }
+
 
     public void notificacion(){
         /*Intent i=new Intent(Intent.ACTION_VIEW);

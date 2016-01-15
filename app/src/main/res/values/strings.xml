@@ -88,6 +88,10 @@
     <string name="lblEscuela">Escuela Superior de Informática</string>
 
 
+    <string name="lblFAQ">Preguntas frecuentes</string>
+    <string name="lblCorreoFAQ">Para cualquier otra duda contacte con nosostros en: preguntasFrecuetnes@mediahora.es</string>
+
+
     <string-array name="pref_fondo_nombre">
         <item>Fondo1</item>
         <item>Fondo2</item>
