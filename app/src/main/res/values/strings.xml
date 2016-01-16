@@ -59,6 +59,7 @@
     <string name="fotoPerfil">Foto de perfil</string>
     <string name="desc_foto">Elija la imagen para su foto de perfil</string>
     <string name="pref_obj_peso">Peso deseado</string>
+    <string name="pref_objetivo">Seleccione el peso que desea conseguir</string>
     <string name="pref_obj_tiempo">Tiempo para conseguirlo</string>
 
     <string name="sel_edad">Seleccione su edad</string>

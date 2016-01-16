@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -106,7 +107,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         cargarPreferencias();
         cargarValores();
         //NAVIGATION BAR
-
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.addTab(tabs.newTab().setText("TELÉFONOS"));
+        tabs.addTab(tabs.newTab().setText("TABLETS"));
+        tabs.addTab(tabs.newTab().setText("PORTÁTILES"));
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -372,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         distRecorrida.setText(distancia+ "m");
         DecimalFormat df = new DecimalFormat("0.0");
         velocidadMedia.setText(df.format(velocidad) + "km/h");
-        caloriasConsumidas.setText(df.format(kcal)+"kcal");
+        caloriasConsumidas.setText(df.format(kcal) + "kcal");
         tiempoMedio.setText(Util.calcularTiempo(tiempo));
         actualizarGrafico();
     }
@@ -546,5 +550,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, "Hoy llevo caminados " + mNumSteps + " pasos. Comprueba los tuyos con #MediaHora ");
         startActivity(Intent.createChooser(intent, "Compartir con"));
+    }
+    private void esPrimeraVez(){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        boolean primeraVez=prefs.getBoolean("primeraVez",true);
+        if(primeraVez){
+            prefs.edit().putBoolean("primeraVez",false).commit();
+            
+        }
+
     }
 }

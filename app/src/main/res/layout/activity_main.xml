@@ -12,10 +12,28 @@ tools:context=".MainActivity">
     android:layout_width="match_parent"
     android:orientation="vertical"
     >
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/tool_bar"
-        />
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/tool_bar"
+            />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/PrimaryColor"/>
+    </android.support.design.widget.AppBarLayout>
+
+
+
+
+
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

@@ -79,13 +79,14 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         findPreference("pNombre").setSummary(prefs.getString("pNombre", getStr(R.string.desc_nombre)));
         findPreference("pCorreo").setSummary(prefs.getString("pCorreo", getStr(R.string.desc_correo)));
         findPreference("pFondoPerf").setSummary(prefs.getString("pFondoPref", getStr(R.string.img_fondo)));
-        findPreference("pObjetivoPeso").setSummary(prefs.getInt("pObjetivoPeso", 5)+" kg.");
+        findPreference("pObjetivoPeso").setSummary(prefs.getInt("pObjetivoPeso", 5) + " kg.");
         /*findPreference("pFoto").setSummary(prefs.getString("pFoto",getStr(R.string.desc_foto)));*/
         getPrefValue("pEdad", prefs, " años");
         findPreference("pSexo").setSummary(prefs.getString("pSexo", getStr(R.string.desc_calorias)));
-        getPrefValue("pAltura", prefs," cm.");
-        getPrefValue("pPeso", prefs," kg.");
-        getPrefValue("pDistanciaP", prefs," cm.");
+        getPrefValue("pAltura", prefs, " cm.");
+        getPrefValue("pPeso", prefs, " kg.");
+        getPrefValue("pDistanciaP", prefs, " cm.");
+        getPrefObjetivo("pObjetivoPeso",prefs);
     }
 
     private String getStr(int id){
@@ -97,6 +98,14 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
             findPreference(nombreP).setSummary(getStr(R.string.desc_calorias));
         }else{
             findPreference(nombreP).setSummary(String.valueOf(value)+unidad);
+        }
+    }
+    private void getPrefObjetivo(String nombreP, SharedPreferences prefs){
+        int value=prefs.getInt(nombreP, -1);
+        if(value==-1){
+            findPreference(nombreP).setSummary(getStr(R.string.pref_objetivo));
+        }else{
+            findPreference(nombreP).setSummary(String.valueOf(value) + "kg.");
         }
     }
 
