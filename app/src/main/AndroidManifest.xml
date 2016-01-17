@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,6 +26,12 @@
         <activity android:name=".Opciones"/>
         <activity android:name=".AcercaDe"/>
         <activity android:name=".FAQ"/>
+        <activity android:name=".Globales"/>
+
+        <service android:name=".MyAlarmService"
+            android:enabled="true" />
+
+        <receiver android:name=".MyReceiver"/>
     </application>
 
 </manifest>

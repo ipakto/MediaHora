@@ -1,10 +1,12 @@
 package fyr.uclm.esi.mediahora;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -27,6 +29,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +48,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,7 +59,7 @@ import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 import fyr.uclm.esi.mediahora.dominio.Util;
 
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity {
     private int contador = 0;
     private int meta=50;
     private int metaDiaria=30000;
@@ -96,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
 
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        /*mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mStepCounterSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);*/
 
         iniciarGrafico();
         tiempos[0]=System.currentTimeMillis();
@@ -106,6 +110,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         cargarPreferencias();
         cargarValores();
+        esPrimeraVez();
+        MiThread hilo = new MiThread(this,this);
+        hilo.start();
+
+
+        cargarAlarma();
         //NAVIGATION BAR
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setText("TELÉFONOS"));
@@ -165,7 +175,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         return true;
                     case R.id.compartir:
                         Toast.makeText(getApplicationContext(),"Compartir Selected",Toast.LENGTH_SHORT).show();
-                        notificar();
+                        startActivity(new Intent(MainActivity.this, Globales.class));
+                        //notificar();
                         compartir();
 
                         return true;
@@ -224,6 +235,49 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
+
+    }
+
+    private void cargarAlarma(){
+        Calendar calendar = Calendar.getInstance();
+
+        /*calendar.set(Calendar.MONTH, 0);
+        calendar.set(Calendar.YEAR, 2016);
+        calendar.set(Calendar.DAY_OF_MONTH, 17);*/
+        int[] horas={12,16,20,23};
+        for (int i=0;i<horas.length;i++) {
+            calendar.set(Calendar.HOUR_OF_DAY, horas[i]);
+            calendar.set(Calendar.MINUTE, 00);
+            calendar.set(Calendar.SECOND, 00);
+            calendar.set(Calendar.AM_PM, Calendar.PM);
+
+            Intent myIntent = new Intent(MainActivity.this, MyReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 10, pendingIntent);
+        }
+           /* AlarmManager alarmManager = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
+            Calendar calendar =  Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 18);
+            calendar.set(Calendar.MINUTE, 17);
+            calendar.set(Calendar.SECOND, 05);
+            long when = calendar.getTimeInMillis();         // notification time
+            Intent intent = new Intent(this, Alarma.class);
+            PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);
+            alarmManager.set(AlarmManager.RTC, when, pendingIntent);*/
+
+         /*Intent myIntent = new Intent(MainActivity.this , Alarma.class);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        PendingIntent pendingIntent = PendingIntent.getService(MainActivity.this, 0, myIntent, 0);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 19);
+        calendar.set(Calendar.MINUTE,52 );
+        calendar.set(Calendar.SECOND, 00);
+
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 24 * 60 * 60 * 1000, pendingIntent);  //set repeating every 24 hours*/
 
     }
     private void insertarEnBD(){
@@ -321,15 +375,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Bind (R.id.txtTiempo) TextView tiempoMedio;
     @Bind (R.id.txtVelocidad) TextView velocidadMedia;
 
-    @Override
+    /*@Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         switch (sensorEvent.sensor.getType()) {
             case Sensor.TYPE_STEP_DETECTOR:
                 contador++;
+                Log.d("DETECTOR", "MAIN:Paso detectado");
                 break;
             case Sensor.TYPE_STEP_COUNTER:
                 //Este primer if borrar cuando no esté el simulador yh descomentar lo comentado
                 //mNumSteps = (int) sensorEvent.values[0];
+                Log.d("DETECTOR","MAIN:Paso detectado");
                 if((mNumSteps-(int)sensorEvent.values[0])<3){
                     mNumSteps=(int) sensorEvent.values[0];
                 }
@@ -344,7 +400,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mStepsText.setText(String.valueOf(mNumSteps));
 
         actualizarGrafico();
-    }
+    }*/
 
 
     public void comprobarTiempo(){
@@ -420,15 +476,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    @Override
+   /* @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
-    }
+    }*/
 
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mStepCounterSensor, SensorManager.SENSOR_DELAY_FASTEST);
-        mSensorManager.registerListener(this, mStepDetectorSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        //mSensorManager.registerListener(this, mStepCounterSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        //mSensorManager.registerListener(this, mStepDetectorSensor, SensorManager.SENSOR_DELAY_FASTEST);
         cargarPreferencias();
         cargarValores();
     }
@@ -556,8 +612,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         boolean primeraVez=prefs.getBoolean("primeraVez",true);
         if(primeraVez){
             prefs.edit().putBoolean("primeraVez",false).commit();
-            
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            DecimalFormat df= new DecimalFormat("0.0");
+            builder.setTitle("¡Bienvenid@ a MediaHora!");
+            builder.setMessage("Configura tu perfil para poder empezar a cumplir tu objetivo");
+            builder.setPositiveButton(R.string.configurarAhora, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    cambiarPref();
+                    startActivity(new Intent(MainActivity.this, Opciones.class));
+                }
+            });
+            builder.setNegativeButton(R.string.masTarde, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
         }
 
+    }
+    private void cambiarPref(){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.edit().putBoolean("primeraVez",false).commit();
     }
 }

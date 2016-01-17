@@ -91,6 +91,9 @@
 
     <string name="lblFAQ">Preguntas frecuentes</string>
     <string name="lblCorreoFAQ">Para cualquier otra duda contacte con nosostros en: preguntasFrecuetnes@mediahora.es</string>
+    <string name="configurarAhora">¡Configurar ahora!</string>
+    <string name="masTarde">Más tarde</string>
+
 
 
     <string-array name="pref_fondo_nombre">
