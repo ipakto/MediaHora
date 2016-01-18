@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:background="#e5f2ff">
 
 
-    <group android:id="@+id/g1" android:checkableBehavior="single">
+    <group android:id="@+id/g1" android:checkableBehavior="single"
+
+        android:background="#e5f2ff">
         <item
             android:id="@+id/perfil"
             android:checked="false"
@@ -14,6 +18,12 @@
             android:checked="false"
             android:icon="@drawable/ic_stats"
             android:title="@string/m_stats" />
+
+        <item
+            android:id="@+id/objetivo"
+            android:checked="false"
+            android:icon="@drawable/ic_objetivo"
+            android:title="@string/m_objetivo" />
 
         <item
             android:id="@+id/compartir"

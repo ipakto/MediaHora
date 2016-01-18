@@ -26,6 +26,9 @@ public  class Util {
         caloriasQuemar=caloriasKilo*difPesos;
         tiempo=((caloriasQuemar*1000)/(2.2*pesoActual*0.026))/60;
         tiempoObjetivo=tiempo/30;
+
+        prefs.edit().putInt("objetivoCalorias",caloriasQuemar).commit();
+        prefs.edit().putFloat("objetivoSesiones",(float)tiempoObjetivo).commit();
         return tiempoObjetivo;
     }
 

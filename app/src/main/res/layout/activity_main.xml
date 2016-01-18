@@ -40,6 +40,7 @@ tools:context=".MainActivity">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="5dp"
+        android:background="#e5f2ff"
         tools:context=".Activity_Main">
 
         <org.eazegraph.lib.charts.PieChart
@@ -50,6 +51,7 @@ tools:context=".MainActivity">
             android:layout_marginTop="10dp"
             eaze:egLegendHeight="0dp"
             eaze:egInnerPadding="75"
+            android:background="#e5f2ff"
             eaze:egHighlightStrength="1"/>
 
         <TextView

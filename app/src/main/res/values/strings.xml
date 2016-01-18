@@ -28,6 +28,7 @@
     <string name="m_inicio">Inicio</string>
     <string name="m_perfil">Perfil</string>
     <string name="m_stats">Estadisticas</string>
+    <string name="m_objetivo">Objetivo</string>
     <string name="m_compartir">Compartir</string>
     <string name="m_ajustes">Ajustes</string>
     <string name="m_acerca">Acerca de</string>
@@ -90,7 +91,7 @@
 
 
     <string name="lblFAQ">Preguntas frecuentes</string>
-    <string name="lblCorreoFAQ">Para cualquier otra duda contacte con nosostros en: preguntasFrecuetnes@mediahora.es</string>
+    <string name="lblCorreoFAQ">Para cualquier otra duda contacte con nosotros en: preguntasFrecuentes@mediahora.es</string>
     <string name="configurarAhora">¡Configurar ahora!</string>
     <string name="masTarde">Más tarde</string>
 

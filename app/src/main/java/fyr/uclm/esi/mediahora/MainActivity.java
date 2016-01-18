@@ -154,44 +154,37 @@ public class MainActivity extends AppCompatActivity {
 
                     //Replacing the main content with ContentFragment Which is our Inbox View;
 
-                    case R.id.home:
-                        Toast.makeText(getApplicationContext(), "Inicio Selected", Toast.LENGTH_SHORT).show();
-                        cambiarFragment(R.layout.prueba);
-                        /*Intent i=new Intent(MainActivity.this,InfoUsuario.class);
-                        startActivity(i);*/
-                        return true;
+
 
                     case R.id.perfil:
-                        Toast.makeText(getApplicationContext(), "Perfil Selected", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, InfoUsuario.class));
                         return true;
 
                     // For rest of the options we just show a toast on click
 
                     case R.id.stats:
-                        Toast.makeText(getApplicationContext(),"Stats Selected",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, Stats.class));
-                        cambiarFragment(R.layout.estadisticas);
+                        //cambiarFragment(R.layout.estadisticas);
                         return true;
-                    case R.id.compartir:
-                        Toast.makeText(getApplicationContext(),"Compartir Selected",Toast.LENGTH_SHORT).show();
+
+                    case R.id.objetivo:
                         startActivity(new Intent(MainActivity.this, Globales.class));
+                        return true;
+
+                    case R.id.compartir:
                         //notificar();
                         compartir();
 
                         return true;
                     case R.id.ajustes:
-                        Toast.makeText(getApplicationContext(),"Ha seleccionado Ajustes",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, Opciones.class));
                         //getFragmentManager().beginTransaction().replace(android.R.id.content,new Opciones()).addToBackStack(null).commit();
                         return true;
                     case R.id.acerca:
-                        Toast.makeText(getApplicationContext(),"Acerca Selected",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, AcercaDe.class));
 
                         return true;
                     case R.id.faq:
-                        Toast.makeText(getApplicationContext(),"FAQ Selected",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this,FAQ.class));
                         insertarEnBD();
                         try {
@@ -332,12 +325,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void iniciarGrafico() {
-        sliceCurrent = new PieModel("", 0, Color.parseColor("#99CC00"));
+        sliceCurrent = new PieModel("", 0, Color.parseColor("#4d79ff"));
         pg.addPieSlice(sliceCurrent);
 
         // Pasos restantes para alcanzar la meta
         // sliceGoal = new PieModel("", meta, Color.parseColor("#CC0000"));
-        sliceGoal = new PieModel("", 1800000, Color.parseColor("#CC0000"));
+        sliceGoal = new PieModel("", 1800000, Color.parseColor("#0033cc"));
         pg.addPieSlice(sliceGoal);
         pg.setDrawValueInPie(false);
         pg.setUsePieRotation(true);
