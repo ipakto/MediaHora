@@ -251,17 +251,6 @@ tools:context=".MainActivity">
         tools:context=".Activity_Main"
         android:layout_marginTop="10dp">
 
-        <org.eazegraph.lib.charts.BarChart
-            xmlns:eaze="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/bargraph"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            eaze:egLegendHeight="35dp"
-            eaze:egShowValues="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
     </RelativeLayout>
     <FrameLayout
         android:id="@+id/frame"

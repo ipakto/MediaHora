@@ -2,12 +2,9 @@ package fyr.uclm.esi.mediahora;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,112 +14,154 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
 import java.text.DecimalFormat;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
 import fyr.uclm.esi.mediahora.dominio.*;
-import fyr.uclm.esi.mediahora.dominio.Util;
 import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 
 /**
- * Created by Paco on 16/01/2016.
+ * Created by Paco on 21/01/2016.
  */
-class MiThread extends Thread {
+public class PruebaThread extends Thread {
+
     private SensorManager mSensorManager;
-    private Sensor mStepCounterSensor;
-    private Sensor mStepDetectorSensor;
+    private Sensor mSensor;
+    private Listener listener;
+
     Context context;
     MainActivity activity;
     View view;
 
-    private int mNumSteps=0;
-    private long tiempos[]=new long [3];
+    private int mNumSteps = 0;
+    private long tiempos[] = new long[3];
 
-    private int metaDiaria=30000;
-    private boolean notificado=false;
-    @Bind(R.id.steps)  TextView mStepsText;
-    @Bind(R.id.txtDist) TextView distRecorrida;
-    @Bind(R.id.txtCalorias) TextView caloriasConsumidas;
-    @Bind (R.id.txtTiempo) TextView tiempoMedio;
-    @Bind (R.id.txtVelocidad) TextView velocidadMedia;
+    private int metaDiaria = 30000;
+    private boolean notificado = false;
+    @Bind(R.id.steps)
+    TextView mStepsText;
+    @Bind(R.id.txtDist)
+    TextView distRecorrida;
+    @Bind(R.id.txtCalorias)
+    TextView caloriasConsumidas;
+    @Bind(R.id.txtTiempo)
+    TextView tiempoMedio;
+    @Bind(R.id.txtVelocidad)
+    TextView velocidadMedia;
 
 
     //Circulo pasos
     private PieModel sliceGoal, sliceCurrent;
-    @Bind(R.id.graphPasos)PieChart pg;
+    @Bind(R.id.graphPasos)
+    PieChart pg;
 
-
-    public  MiThread(Context context,MainActivity activity,View v) {
+    public PruebaThread(Context context, MainActivity activity, View v) {
         this.context = context;
-        tiempos[0]=System.currentTimeMillis();
-        this.activity=activity;
-        this.view=v;
+        tiempos[0] = System.currentTimeMillis();
+        this.activity = activity;
+        this.view = v;
     }
 
     @Override
     public void run() {
-        Log.d("RunTag", Thread.currentThread().getName()); // To display thread
+        // Start detecting
+        listener = new Listener();
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        mStepCounterSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-        MyListener msl = new MyListener();
-        mSensorManager.registerListener(msl, mStepCounterSensor, Sensor.TYPE_STEP_COUNTER);
-        mSensorManager.registerListener(msl, mStepDetectorSensor, SensorManager.SENSOR_DELAY_UI);
-
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorManager.registerListener(listener, mSensor, SensorManager.SENSOR_DELAY_FASTEST);
         ButterKnife.bind(view);
-        distRecorrida= (TextView) view.findViewById(R.id.txtDist);
-        caloriasConsumidas= (TextView) view.findViewById(R.id.txtCalorias);
-        tiempoMedio= (TextView) view.findViewById(R.id.txtTiempo);
-        velocidadMedia= (TextView) view.findViewById(R.id.txtVelocidad);
-        mStepsText= (TextView) view.findViewById(R.id.steps);
-        pg=(PieChart)view.findViewById(R.id.graphPasos);
+        distRecorrida = (TextView) view.findViewById(R.id.txtDist);
+        caloriasConsumidas = (TextView) view.findViewById(R.id.txtCalorias);
+        tiempoMedio = (TextView) view.findViewById(R.id.txtTiempo);
+        velocidadMedia = (TextView) view.findViewById(R.id.txtVelocidad);
+        mStepsText = (TextView) view.findViewById(R.id.steps);
+        pg = (PieChart) view.findViewById(R.id.graphPasos);
         iniciarGrafico();
         cargarValores();
-
-
     }
 
 
+    private class Listener implements SensorEventListener {
 
-    private class MyListener implements SensorEventListener {
-        public void onAccuracyChanged (Sensor sensor, int accuracy) {}
-        public void onSensorChanged(SensorEvent sensorEvent) {
+        private final static String TAG = "StepDetector";
+        private float mLimit = 16;
+        private float mLastValues[] = new float[3 * 2];
+        private float mScale[] = new float[2];
+        private float mYOffset;
 
+        private float mLastDirections[] = new float[3 * 2];
+        private float mLastExtremes[][] = {new float[3 * 2], new float[3 * 2]};
+        private float mLastDiff[] = new float[3 * 2];
+        private int mLastMatch = -1;
 
-        switch(sensorEvent.sensor.getType())
-
-        {
-            case Sensor.TYPE_STEP_DETECTOR:
-                Log.d("DETECTOR", "Paso detectado");
-                break;
-            case Sensor.TYPE_STEP_COUNTER:
-                Log.d("DETECTOR", "Paso contado");
-                //Este primer if borrar cuando no esté el simulador yh descomentar lo comentado
-                mNumSteps = (int) sensorEvent.values[0];
-                /*if ((mNumSteps - (int) sensorEvent.values[0]) < 3) {
-                    mNumSteps = (int) sensorEvent.values[0];
-                }*/
-                if (mNumSteps == 0) {
-                    insertarEnBD();
-                }
-                comprobarTiempo();
-                realizarCalculos(mNumSteps);
-                break;
+        public Listener() {
+            int h = 480; // TODO: remove this constant
+            mYOffset = h * 0.5f;
+            mScale[0] = -(h * 0.5f * (1.0f / (SensorManager.STANDARD_GRAVITY * 2)));
+            mScale[1] = -(h * 0.5f * (1.0f / (SensorManager.MAGNETIC_FIELD_EARTH_MAX)));
         }
 
-        mStepsText.setText(String.valueOf(mNumSteps));
+        public void onSensorChanged(SensorEvent event) {
+            Sensor sensor = event.sensor;
+            synchronized (this) {
+                if (sensor.getType() == Sensor.TYPE_ORIENTATION) {
+                } else {
+                    int j = (sensor.getType() == Sensor.TYPE_ACCELEROMETER) ? 1 : 0;
+                    if (j == 1) {
+                        float vSum = 0;
+                        for (int i = 0; i < 3; i++) {
+                            final float v = mYOffset + event.values[i] * mScale[j];
+                            vSum += v;
+                        }
 
-        actualizarGrafico();
+                        Log.i(TAG, "EntraSensor");
+                        int k = 0;
+                        float v = vSum / 3;
+
+                        float direction = (v > mLastValues[k] ? 1 : (v < mLastValues[k] ? -1 : 0));
+                        if (direction == -mLastDirections[k]) {
+                            // Direction changed
+                            int extType = (direction > 0 ? 0 : 1); // minumum or maximum?
+                            mLastExtremes[extType][k] = mLastValues[k];
+                            float diff = Math.abs(mLastExtremes[extType][k] - mLastExtremes[1 - extType][k]);
+
+                            if (diff > mLimit) {
+
+                                boolean isAlmostAsLargeAsPrevious = diff > (mLastDiff[k] * 2 / 3);
+                                boolean isPreviousLargeEnough = mLastDiff[k] > (diff / 3);
+                                boolean isNotContra = (mLastMatch != 1 - extType);
+
+                                if (isAlmostAsLargeAsPrevious && isPreviousLargeEnough && isNotContra) {
+                                    Log.i("PASO", "step");
+                                    mNumSteps++;
+                                    comprobarTiempo();
+                                    realizarCalculos(mNumSteps);
+                                    mStepsText.setText(String.valueOf(mNumSteps));
+                                    actualizarGrafico();
+                                    mLastMatch = extType;
+                                } else {
+                                    mLastMatch = -1;
+                                }
+                            }
+                            mLastDiff[k] = diff;
+                        }
+                        mLastDirections[k] = direction;
+                        mLastValues[k] = v;
+                    }
+                }
+            }
+        }
+
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // TODO Auto-generated method stub
+        }
     }
-}
     private void insertarEnBD(){
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(activity);
         ConectorBD conectorBD = new ConectorBD(activity);
@@ -159,9 +198,9 @@ class MiThread extends Thread {
         DecimalFormat df = new DecimalFormat("0.0");
         velocidadMedia.setText(df.format(velocidad) + "km/h");
         caloriasConsumidas.setText(df.format(kcal) + "kcal");
-        tiempoMedio.setText(Util.calcularTiempo(tiempo));
+        tiempoMedio.setText(fyr.uclm.esi.mediahora.dominio.Util.calcularTiempo(tiempo));
         mStepsText.setText(String.valueOf(pasos));
-       // actualizarGrafico();
+        // actualizarGrafico();
     }
 
     public void comprobarTiempo(){
@@ -216,7 +255,7 @@ class MiThread extends Thread {
 
     private void iniciarGrafico() {
         sliceCurrent = new PieModel("", 0, Color.parseColor("#99CC00"));
-    //    pg.addPieSlice(sliceCurrent);
+        //    pg.addPieSlice(sliceCurrent);
 
         // Pasos restantes para alcanzar la meta
         // sliceGoal = new PieModel("", meta, Color.parseColor("#CC0000"));

@@ -3,16 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp"
+    android:background="#e5f2ff"
     tools:context=".Activity_Main">
 
     <org.eazegraph.lib.charts.PieChart
         xmlns:eaze="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/graph"
+        android:id="@+id/graphPasos"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="10dp"
         eaze:egLegendHeight="0dp"
         eaze:egInnerPadding="75"
+        android:background="#e5f2ff"
         eaze:egHighlightStrength="1"/>
 
     <TextView
@@ -34,61 +36,218 @@
         android:textSize="20sp"/>
 
     <LinearLayout
-        android:id="@+id/averageandtotal"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/graph"
-        android:layout_marginTop="20dp">
+        android:layout_height="76dp"
+        android:weightSum="1"
+        android:layout_marginTop="20dp"
+        android:id="@+id/LayoutCalVel"
+        android:layout_below="@+id/graphPasos">
 
-        <TextView
-            android:id="@+id/average"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/averageandtotaltext"
+            android:layout_weight="0.5"
+            android:id="@+id/LayoutCalorias">
 
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:id="@+id/imgCal"
+                android:contentDescription="Icono de calorías"
+                android:src="@drawable/flames8"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.25" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/LayoutValoresCal"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.7">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblCalorias"
+                    android:id="@+id/lblCalorias"
+                    android:layout_marginLeft="5px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtCalorias"
+                    android:text="37 kcal"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="5px" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/LayoutVelocidad"
+            android:layout_weight="0.5">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/imgVel"
+                android:src="@drawable/runer"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.25" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/LayoutValoresVel"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_weight="0.7">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblVelocidad"
+                    android:id="@+id/lblVelocidad"
+                    android:layout_marginLeft="5px" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="6km/h"
+                    android:id="@+id/txtVelocidad"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="5px" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/averageandtotaltext"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/averageandtotal">
+        android:layout_height="76dp"
+        android:weightSum="1"
+        android:layout_below="@+id/LayoutCalVel"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/LayoutDisTiem">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="Media"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="162dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/averageandtotaltext"
+            android:layout_weight="0.5"
+            android:id="@+id/layoutDist" >
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="Total"/>
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/imgDist"
+                android:contentDescription="Icono de calorías"
+                android:src="@drawable/ruler13"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.25" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layoutValoresDist"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.7">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblDist"
+                    android:id="@+id/lblDist"
+                    android:layout_marginLeft="5px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/txtDist"
+                    android:text="300m"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="5px" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="161dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:id="@+id/layoutTiempo" >
+
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:id="@+id/imgTiempo"
+                android:src="@drawable/stopwatch"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.25" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/layoutValoresTiem"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.7">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblTiempo"
+                    android:id="@+id/lblTiempo"
+                    android:layout_marginLeft="5px" />
+
+                <TextView
+                    android:layout_width="91dp"
+                    android:layout_height="wrap_content"
+                    android:text="00:05:27"
+                    android:id="@+id/txtTiempo"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="5px" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <org.eazegraph.lib.charts.BarChart
-        xmlns:eaze="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/bargraph"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_below="@+id/averageandtotaltext"
-        android:layout_marginTop="50dp"
-        eaze:egLegendHeight="35dp"
-        eaze:egShowValues="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BTN"
+        android:id="@+id/btnPaso"
+        android:layout_above="@+id/LayoutCalVel"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

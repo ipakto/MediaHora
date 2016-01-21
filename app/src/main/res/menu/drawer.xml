@@ -20,12 +20,6 @@
             android:title="@string/m_stats" />
 
         <item
-            android:id="@+id/objetivo"
-            android:checked="false"
-            android:icon="@drawable/ic_objetivo"
-            android:title="@string/m_objetivo" />
-
-        <item
             android:id="@+id/compartir"
             android:checked="false"
             android:icon="@drawable/ic_share"

@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private PieModel sliceGoal, sliceCurrent;
     @Bind(R.id.graph)PieChart pg;
     @Bind(R.id.btnPaso) Button b;
+    @Bind (R.id.button) Button b1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -104,27 +105,59 @@ public class MainActivity extends AppCompatActivity {
         mStepCounterSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         mStepDetectorSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);*/
 
-        iniciarGrafico();
+        //iniciarGrafico();
         tiempos[0]=System.currentTimeMillis();
         PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean("pCambia",true).commit();
 
         cargarPreferencias();
-        cargarValores();
+        //cargarValores();
         esPrimeraVez();
-        MiThread hilo = new MiThread(this,this);
-        hilo.start();
 
 
         cargarAlarma();
         //NAVIGATION BAR
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
-        tabs.addTab(tabs.newTab().setText("TELÉFONOS"));
-        tabs.addTab(tabs.newTab().setText("TABLETS"));
-        tabs.addTab(tabs.newTab().setText("PORTÁTILES"));
+        tabs.addTab(tabs.newTab().setText("ACTUAL"), true);
+        tabs.addTab(tabs.newTab().setText("GLOBAL"));
+
+        tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getText().equals("ACTUAL")) {
+                    Prueba fg = new Prueba();
+                    fg.setActivity(MainActivity.this);
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, fg);
+                    fragmentTransaction.commit();
+                } else {
+                    GlobalesFragment fg = new GlobalesFragment();
+                    fg.setActivity(MainActivity.this);
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, fg);
+                    fragmentTransaction.commit();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sensorSimulado();
+            }
+        });
+        b1.setOnClickListener(new View.OnClickListener(){
+            @Override
+                    public void onClick(View view){
+                startActivity(new Intent(MainActivity.this,Globales.class));
             }
         });
         // Initializing Toolbar and setting it as the actionbar
@@ -165,10 +198,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.stats:
                         startActivity(new Intent(MainActivity.this, Stats.class));
                         //cambiarFragment(R.layout.estadisticas);
-                        return true;
-
-                    case R.id.objetivo:
-                        startActivity(new Intent(MainActivity.this, Globales.class));
                         return true;
 
                     case R.id.compartir:
@@ -223,12 +252,12 @@ public class MainActivity extends AppCompatActivity {
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
 
-        ContentFragment fragment = new ContentFragment();
-        fragment.setLayout(R.layout.prueba);
+        Prueba fg=new Prueba();
+        fg.setActivity(this);
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragment);
+        fragmentTransaction.replace(R.id.frame, fg);
         fragmentTransaction.commit();
-
+       Log.d("O","a");
     }
 
     private void cargarAlarma(){
@@ -338,14 +367,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void actualizarGrafico(){
-       /* sliceCurrent.setValue(mNumSteps);
-        if(meta-mNumSteps>0){
-            sliceGoal.setValue(meta-mNumSteps);
-        }else{
-            sliceGoal.setValue(0);
-            notificar();
-        }
-        pg.update();*/
         sliceCurrent.setValue(tiempos[2]);
         if(metaDiaria-tiempos[2]>0){
             sliceGoal.setValue(metaDiaria-tiempos[2]);
@@ -427,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
         velocidadMedia.setText(df.format(velocidad) + "km/h");
         caloriasConsumidas.setText(df.format(kcal) + "kcal");
         tiempoMedio.setText(Util.calcularTiempo(tiempo));
-        actualizarGrafico();
+        //actualizarGrafico();
     }
     //Valor de las calorias: http://es.calcuworld.com/deporte-y-ejercicio/calculadora-de-calorias-quemadas/
     //double minutos=1;
@@ -566,7 +587,7 @@ public class MainActivity extends AppCompatActivity {
         nm.notify(1,b.build());
     }
 
-    private void notificar() {
+    public void notificar() {
         NotificationCompat.Builder builder=new NotificationCompat.Builder(this);
 
         builder
