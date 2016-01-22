@@ -428,11 +428,12 @@ public class MainActivity extends AppCompatActivity {
     //Valor de las calorias: http://es.calcuworld.com/deporte-y-ejercicio/calculadora-de-calorias-quemadas/
     //double minutos=1;
     public void realizarCalculos(int steps){
-        int lZancada=0,distancia;
+        int lZancada=0,distancia,peso;
         double velocidad , calorias, nivel;
         double tiempo=tiempos[2]/1000; //Tiempo en segundos
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         lZancada=prefs.getInt("pDistanciaP", 65); // en cm
+        peso=prefs.getInt("pPeso",70);//en kg
         distancia=(int)(steps*lZancada*0.01); //pasada a metros
 //        velocidad=(distancia/1000.0)/((tiempo/60)); //pasada a kilometros/hora
         velocidad=(distancia/tiempo)*3.6;
@@ -451,7 +452,8 @@ public class MainActivity extends AppCompatActivity {
             // calorias=(220*minutos)/30;
         }
         //  minutos+=.1;
-        calorias=((2.2*prefs.getInt("pPeso",70))*tiempo*nivel)/1000;
+       // calorias=((2.2*prefs.getInt("pPeso",70))*tiempo*nivel)/1000;
+        calorias=peso*nivel*tiempo/3600;
         distRecorrida.setText(distancia+ "m");
         DecimalFormat df = new DecimalFormat("0.0");
         velocidadMedia.setText(df.format(velocidad) + "km/h");

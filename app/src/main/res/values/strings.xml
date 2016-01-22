@@ -53,6 +53,8 @@
     <string name="pref_categ_diseño">Diseño</string>
     <string name="pref_categ_perfil">Perfil</string>
     <string name="pref_categ_obj">Objetivo</string>
+    <string name="pref_sens">Sensibilidad</string>
+    <string name="desc_sens">Comprueba con qué valor tus pasos se cuentan con mayor exactitud</string>
     <string name="desc_calorias">Se usa para mostrar el consumo de calorias</string>
     <string name="desc_nombre">Indique su nombre</string>
     <string name="desc_correo">Indique su correo electrónico</string>
@@ -115,5 +117,20 @@
     <string-array name="pref_sexo_val">
         <item>Hombre</item>
         <item>Mujer</item>
+    </string-array>
+
+    <string-array name="pref_sens_nombre">
+        <item>Muy baja</item>
+        <item>Baja</item>
+        <item>Media</item>
+        <item>Alta</item>
+        <item>Muy alta</item>
+    </string-array>
+    <string-array name="pref_sens_val">
+        <item>30</item>
+        <item>25</item>
+        <item>20</item>
+        <item>15</item>
+        <item>10</item>
     </string-array>
 </resources>

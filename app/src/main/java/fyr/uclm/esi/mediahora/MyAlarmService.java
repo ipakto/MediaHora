@@ -83,6 +83,9 @@ public class MyAlarmService extends Service
                     mensaje=mensajesAviso[posMensaje];
                 }
                 break;
+            case 00:
+                //MainActivity.insertarEnBD();
+                break;
 
         }
 

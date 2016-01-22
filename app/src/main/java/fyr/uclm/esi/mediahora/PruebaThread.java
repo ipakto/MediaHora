@@ -90,7 +90,8 @@ public class PruebaThread extends Thread {
     private class Listener implements SensorEventListener {
 
         private final static String TAG = "StepDetector";
-        private float mLimit = 16;
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(activity);
+        private float mLimit = prefs.getInt("pSensibilidad",20);
         private float mLastValues[] = new float[3 * 2];
         private float mScale[] = new float[2];
         private float mYOffset;
@@ -99,6 +100,8 @@ public class PruebaThread extends Thread {
         private float mLastExtremes[][] = {new float[3 * 2], new float[3 * 2]};
         private float mLastDiff[] = new float[3 * 2];
         private int mLastMatch = -1;
+
+
 
         public Listener() {
             int h = 480; // TODO: remove this constant

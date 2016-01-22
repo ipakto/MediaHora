@@ -47,6 +47,13 @@
             android:key="pDistanciaP"
             android:title="@string/pref_dist"
           />
+        <ListPreference
+            android:key="pSensibilidad"
+            android:title="@string/pref_sens"
+            android:defaultValue="20"
+            android:entries="@array/pref_sens_nombre"
+            android:entryValues="@array/pref_sens_val"
+            />
     </PreferenceCategory>
 
 

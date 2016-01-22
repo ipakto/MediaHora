@@ -70,6 +70,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         findPreference("pPeso").setOnPreferenceClickListener(this);
         findPreference("pDistanciaP").setOnPreferenceClickListener(this);
         findPreference("pObjetivoPeso").setOnPreferenceClickListener(this);
+        findPreference("pSensibilidad").setOnPreferenceClickListener(this);
         completarCampos();
 
 
@@ -83,6 +84,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         /*findPreference("pFoto").setSummary(prefs.getString("pFoto",getStr(R.string.desc_foto)));*/
         getPrefValue("pEdad", prefs, " años");
         findPreference("pSexo").setSummary(prefs.getString("pSexo", getStr(R.string.desc_calorias)));
+        findPreference("pSensibilidad").setSummary(prefs.getString("pSensibilidad", getStr(R.string.desc_sens)));
         getPrefValue("pAltura", prefs, " cm.");
         getPrefValue("pPeso", prefs, " kg.");
         getPrefValue("pDistanciaP", prefs, " cm.");
@@ -116,6 +118,10 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         switch (preference.getTitleRes()) {
             case R.string.pref_sexo:
                 prefs.edit().putString("pSexo",String.valueOf(newValue)).commit();
+                preference.setSummary(String.valueOf(newValue));
+                break;
+            case R.string.pref_sens:
+                prefs.edit().putString("pSensibilidad",String.valueOf(newValue)).commit();
                 preference.setSummary(String.valueOf(newValue));
                 break;
             case R.string.pref_nombre:

@@ -14,18 +14,20 @@ public  class Util {
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(a);
         int caloriasKilo, caloriasQuemar;
         double tiempo, tiempoObjetivo;//min
-        int pesoActual, pesoDeseado,difPesos;
+        int pesoActual, pesoDeseado,difPesos, metabolismo;
         pesoActual=prefs.getInt("pPeso",70);
         pesoDeseado=prefs.getInt("pObjetivoPeso",60);
         difPesos=pesoActual-pesoDeseado;
+      //  metabolismo=pesoActual*10 + prefs.getInt("pAltura",165)*6.25-prefs.getInt("pEdad",21)*5;
         if(tieneSobrepeso(a)){
             caloriasKilo=8750-2800;
         }else{
             caloriasKilo=7700-2800;
         }
-        caloriasQuemar=caloriasKilo*difPesos;
-        tiempo=((caloriasQuemar*1000)/(2.2*pesoActual*0.026))/60;
-        tiempoObjetivo=tiempo/30;
+        caloriasQuemar=caloriasKilo*difPesos; // calorias=peso*nivel*tiempo(horas)
+       // tiempo=((caloriasQuemar*1000)/(2.2*pesoActual*0.026))/60;
+        tiempo=(caloriasQuemar)/(pesoActual*2.66);
+        tiempoObjetivo=tiempo*60/30;
 
         prefs.edit().putInt("objetivoCalorias",caloriasQuemar).commit();
         prefs.edit().putFloat("objetivoSesiones",(float)tiempoObjetivo).commit();
