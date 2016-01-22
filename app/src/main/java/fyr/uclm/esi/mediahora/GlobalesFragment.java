@@ -72,17 +72,28 @@ public class GlobalesFragment extends Fragment {
             bd.cerrar();
             kcal += prefs.getFloat("calorias", 0);
             tiempo += prefs.getInt("tiempo", 0);
-            DecimalFormat df = new DecimalFormat("0.0");
-            calGastadas.setText(df.format(kcal) + " kcal");
-            calTotales.setText(caloriasT + " kcal");
-            int sesionesComp = tiempo / (1000);
-            sesCompletadas.setText(sesionesComp + " sesiones");
-            sesTotales.setText((int) objetivo + " sesiones");
-            sesiones.setText(Math.round(sesionesComp / objetivo * 100) + "%");
 
-            sliceCurrent = new PieModel("", sesionesComp, Color.parseColor("#4d79ff"));
+            calTotales.setText(caloriasT + " kcal");
+            sesTotales.setText((int) objetivo + " sesiones");
+            int sesionesComp = tiempo / (1000*60*30);
+            int porcentaje=Math.round(sesionesComp / objetivo * 100);
+            DecimalFormat df = new DecimalFormat("0.0");
+            if(porcentaje>=100){
+                calGastadas.setText(caloriasT + " kcal");
+                sesCompletadas.setText((int) objetivo + " sesiones");
+                sesiones.setText("100%");
+                sliceCurrent = new PieModel("", sesionesComp, Color.parseColor("#4d79ff"));
+                sliceGoal = new PieModel("", 0, Color.parseColor("#0033cc"));
+
+            }else{
+                calGastadas.setText(df.format(kcal) + " kcal");
+                sesCompletadas.setText(sesionesComp + " sesiones");
+                sesiones.setText(Math.round(sesionesComp / objetivo * 100) + "%");
+                sliceCurrent = new PieModel("", sesionesComp, Color.parseColor("#4d79ff"));
+                sliceGoal = new PieModel("", objetivo-sesionesComp, Color.parseColor("#0033cc"));
+            }
+
             pg.addPieSlice(sliceCurrent);
-            sliceGoal = new PieModel("", objetivo, Color.parseColor("#0033cc"));
             pg.addPieSlice(sliceGoal);
             pg.setDrawValueInPie(false);
             pg.setUsePieRotation(true);

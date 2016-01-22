@@ -60,7 +60,6 @@ import fyr.uclm.esi.mediahora.dominio.Util;
 
 
 public class MainActivity extends AppCompatActivity {
-    private int contador = 0;
     private int meta=50;
     private int metaDiaria=30000;
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -68,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
     // Layout components
     @Bind(R.id.steps)
     TextView mStepsText;
-    // @Bind(R.id.detectorTypeText) TextView mDetectorTypeText;
-    //@Bind(R.id.statsButton) Button mStatsButton;
 
     // Variables
     private SensorManager mSensorManager;
@@ -154,10 +151,10 @@ public class MainActivity extends AppCompatActivity {
                 sensorSimulado();
             }
         });
-        b1.setOnClickListener(new View.OnClickListener(){
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
-                    public void onClick(View view){
-                startActivity(new Intent(MainActivity.this,Globales.class));
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, Globales.class));
             }
         });
         // Initializing Toolbar and setting it as the actionbar
@@ -166,60 +163,38 @@ public class MainActivity extends AppCompatActivity {
 
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             // This method will trigger on item Click of navigation menu
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-
-                //Checking if the item is in checked state or not, if not make it in checked state
-                /*if(menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);*/
-
-                //Closing drawer on item click
                 drawerLayout.closeDrawers();
-
-                //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()){
-
-
-                    //Replacing the main content with ContentFragment Which is our Inbox View;
-
-
 
                     case R.id.perfil:
                         startActivity(new Intent(MainActivity.this, InfoUsuario.class));
                         return true;
 
-                    // For rest of the options we just show a toast on click
-
                     case R.id.stats:
                         startActivity(new Intent(MainActivity.this, Stats.class));
-                        //cambiarFragment(R.layout.estadisticas);
                         return true;
 
                     case R.id.compartir:
-                        //notificar();
                         compartir();
-
                         return true;
+
                     case R.id.ajustes:
                         startActivity(new Intent(MainActivity.this, Opciones.class));
-                        //getFragmentManager().beginTransaction().replace(android.R.id.content,new Opciones()).addToBackStack(null).commit();
                         return true;
+
                     case R.id.acerca:
                         startActivity(new Intent(MainActivity.this, AcercaDe.class));
+                        return true;
 
-                        return true;
                     case R.id.faq:
-                        startActivity(new Intent(MainActivity.this,FAQ.class));
-                        insertarEnBD();
-                        try {
-                            copiaBD();
-                        }catch(Exception e){}
+                        startActivity(new Intent(MainActivity.this, FAQ.class));
                         return true;
+
                     default:
                         Toast.makeText(getApplicationContext(),"Somethings Wrong",Toast.LENGTH_SHORT).show();
                         return true;
@@ -617,8 +592,10 @@ public class MainActivity extends AppCompatActivity {
     private void compartir(){
 
         Intent intent = new Intent(Intent.ACTION_SEND);
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        int pasos=prefs.getInt("pasos", 0);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, "Hoy llevo caminados " + mNumSteps + " pasos. Comprueba los tuyos con #MediaHora ");
+        intent.putExtra(Intent.EXTRA_TEXT, "Hoy llevo caminados " + pasos + " pasos. Comprueba los tuyos con #MediaHora ");
         startActivity(Intent.createChooser(intent, "Compartir con"));
     }
     private void esPrimeraVez(){
