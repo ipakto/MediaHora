@@ -86,12 +86,15 @@ public class PruebaThread extends Thread {
         cargarValores();
     }
 
+    public void setSensibilidad(float sensibilidad){
+        listener.setSensibilidad(sensibilidad);
+    }
+
 
     private class Listener implements SensorEventListener {
 
         private final static String TAG = "StepDetector";
-        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(activity);
-        private float mLimit = prefs.getInt("pSensibilidad",20);
+        private float mLimit;
         private float mLastValues[] = new float[3 * 2];
         private float mScale[] = new float[2];
         private float mYOffset;
@@ -108,6 +111,9 @@ public class PruebaThread extends Thread {
             mYOffset = h * 0.5f;
             mScale[0] = -(h * 0.5f * (1.0f / (SensorManager.STANDARD_GRAVITY * 2)));
             mScale[1] = -(h * 0.5f * (1.0f / (SensorManager.MAGNETIC_FIELD_EARTH_MAX)));
+            SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(activity);
+            mLimit =Float.parseFloat(prefs.getString("pSensibilidad","20"));
+            Log.d("Deb",String.valueOf(mLimit));
         }
 
         public void onSensorChanged(SensorEvent event) {
@@ -163,6 +169,10 @@ public class PruebaThread extends Thread {
 
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
             // TODO Auto-generated method stub
+        }
+
+        public void setSensibilidad(float sensibilidad){
+            mLimit=sensibilidad;
         }
     }
     private void insertarEnBD(){

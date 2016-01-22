@@ -50,6 +50,7 @@
         <ListPreference
             android:key="pSensibilidad"
             android:title="@string/pref_sens"
+            android:summary="Elija la sensibilidad para detectar los pasos"
             android:defaultValue="20"
             android:entries="@array/pref_sens_nombre"
             android:entryValues="@array/pref_sens_val"
