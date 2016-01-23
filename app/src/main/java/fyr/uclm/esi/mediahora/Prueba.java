@@ -33,7 +33,7 @@ public class Prueba extends Fragment
     private long tiempos[]=new long [3];
     private ConectorBD conectorBD;
     MainActivity activity;
-    private int metaDiaria=30000;
+    private int metaDiaria=1800000;
 
 
     TextView distRecorrida;
@@ -42,6 +42,7 @@ public class Prueba extends Fragment
     TextView velocidadMedia;
     TextView mStepsText;
     Button b;
+    static PruebaThread hilo;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.prueba,container,false);
@@ -49,13 +50,18 @@ public class Prueba extends Fragment
         iniciarGrafico();
         cargarValores();
         //MiThread hilo = new MiThread(activity.getBaseContext(),activity,v);
-        PruebaThread hilo= new PruebaThread(activity.getBaseContext(),activity,v);
+        hilo= new PruebaThread(activity.getBaseContext(),activity,v);
         hilo.start();
         /*MiThread hilo = new MiThread(getContext(),activity);
         hilo.start();*/
 
 
         return v;
+    }
+    public static void cambiarSensibilidad(String sensibilidad){
+        if(hilo!=null){
+            hilo.setSensibilidad(Float.valueOf(sensibilidad));
+        }
     }
     private void recuperarElementos(View v){
         pg=(PieChart) v.findViewById(R.id.graphPasos);

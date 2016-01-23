@@ -133,4 +133,28 @@
         <item>15</item>
         <item>10</item>
     </string-array>
+
+    <string-array name="pref_sensi_nombre">
+        <item>Extra alta</item>
+        <item>Muy alta</item>
+        <item>Alta</item>
+        <item>Superior</item>
+        <item>Media</item>
+        <item>Inferior</item>
+        <item>Baja</item>
+        <item>Muy baja</item>
+        <item>Extra baja</item>
+    </string-array>
+
+    <string-array name="pref_sensi_val">
+        <item>1.9753</item>
+        <item>2.9630</item>
+        <item>4.4444</item><!-- 10 * 1.5^(-2) -->
+        <item>6.6667</item><!-- 10 * 1.5^(-1) -->
+        <item>10</item>
+        <item>15</item><!--     10 * 1.5      -->
+        <item>22.5</item><!--   10 * 1.5^2    -->
+        <item>33.75</item>
+        <item>50.625</item>
+    </string-array>
 </resources>

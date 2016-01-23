@@ -3,6 +3,7 @@ package fyr.uclm.esi.mediahora;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -193,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.faq:
                         startActivity(new Intent(MainActivity.this, FAQ.class));
+                        prueba();
                         return true;
 
                     default:
@@ -241,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
         /*calendar.set(Calendar.MONTH, 0);
         calendar.set(Calendar.YEAR, 2016);
         calendar.set(Calendar.DAY_OF_MONTH, 17);*/
-        int[] horas={12,16,20,23};
+        int[] horas={00,12,16,20,23};
         for (int i=0;i<horas.length;i++) {
             calendar.set(Calendar.HOUR_OF_DAY, horas[i]);
             calendar.set(Calendar.MINUTE, 00);
@@ -252,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
 
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 10, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24, pendingIntent);
         }
            /* AlarmManager alarmManager = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
             Calendar calendar =  Calendar.getInstance();
@@ -591,6 +593,33 @@ public class MainActivity extends AppCompatActivity {
 
         notifManager.notify(notif_ref, builder.build());
     }
+    private void prueba(){
+        String mensaje="DEVICE SHELL COMMAND: am start -D -n \"fyr.uclm.esi.mediahora/fyr.uclm.esi.mediahora.MainActivity\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER\n" +
+                "Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=fyr.uclm.esi.mediahora/.MainActivity }";
+        Notification.Builder builder=new Notification.Builder(this);
+        Intent intent1 = new Intent(this.getApplicationContext(),MainActivity.class);
+        PendingIntent pendingNotificationIntent = PendingIntent.getActivity( this.getApplicationContext(),0, intent1,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setTicker("¡¡ENHORABUENA!!")
+                .setWhen(System.currentTimeMillis())
+                .setContentTitle("ALARMA")
+                .setContentText(mensaje)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        builder.setVibrate(new long[]{1000, 500, 1000});
+        builder.setLights(Color.CYAN, 1, 0);
+        builder.setAutoCancel(true);
+        builder.setContentIntent(pendingNotificationIntent);
+
+        Notification.BigTextStyle n=new Notification.BigTextStyle(builder).bigText("asxjhlavsjxas"+mensaje).setBigContentTitle("titulo");
+        NotificationManager notifManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+
+        int notif_ref = 1;
+
+        notifManager.notify(notif_ref, n.build());
+    }
     private void compartir(){
 
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -606,7 +635,6 @@ public class MainActivity extends AppCompatActivity {
         if(primeraVez){
             prefs.edit().putBoolean("primeraVez",false).commit();
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            DecimalFormat df= new DecimalFormat("0.0");
             builder.setTitle("¡Bienvenid@ a MediaHora!");
             builder.setMessage("Configura tu perfil para poder empezar a cumplir tu objetivo");
             builder.setPositiveButton(R.string.configurarAhora, new DialogInterface.OnClickListener() {

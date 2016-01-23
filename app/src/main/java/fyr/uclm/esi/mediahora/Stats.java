@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import fyr.uclm.esi.mediahora.dominio.Util;
 import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 
 /**
@@ -57,5 +58,6 @@ public class Stats extends Activity
         caloriasR.setText(df.format(kcal)+"kcal");
         tiempoR.setText(fyr.uclm.esi.mediahora.dominio.Util.calcularTiempo(tiempo));
         bd.cerrar();
+        Util.cambiarColorStatusBar(this);
     }
 }

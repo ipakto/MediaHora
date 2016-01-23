@@ -12,6 +12,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import fyr.uclm.esi.mediahora.dominio.Util;
 
 /**
  * Created by Rosana on 15/11/2015.
@@ -48,6 +49,8 @@ public class InfoUsuario extends Activity
             Drawable d2 = new BitmapDrawable(getBaseContext().getResources(), b2);
             fotoPerf.setImageDrawable(d2);
         }
+
+        Util.cambiarColorStatusBar(this);
     }
     private String getStr(int id){
         return getResources().getString(id);

@@ -2,16 +2,21 @@ package fyr.uclm.esi.mediahora;
 
 
 import fyr.uclm.esi.mediahora.ExpandableListAdapter;
+import fyr.uclm.esi.mediahora.dominio.*;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import android.app.Activity;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
@@ -52,6 +57,7 @@ public class FAQ extends Activity{
                 return true;
             }
         });
+        Util.cambiarColorStatusBar(this);
     }
 
     private void createGroupList() {

@@ -2,9 +2,14 @@ package fyr.uclm.esi.mediahora.dominio;
 
  import android.app.Activity;
  import android.content.SharedPreferences;
+ import android.os.Build;
  import android.preference.PreferenceManager;
+ import android.view.Window;
+ import android.view.WindowManager;
 
  import java.util.Calendar;
+
+ import fyr.uclm.esi.mediahora.R;
 
 public  class Util {
 
@@ -75,5 +80,15 @@ public  class Util {
             sFinal=""+s;
         }
         return hFinal+":"+mFinal+":"+sFinal;
+    }
+
+    public static void cambiarColorStatusBar(Activity activity){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = activity.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(activity.getResources().getColor(R.color.PrimaryDarkColor));
+        }
     }
 }

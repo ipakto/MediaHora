@@ -42,7 +42,7 @@ public class PruebaThread extends Thread {
     private int mNumSteps = 0;
     private long tiempos[] = new long[3];
 
-    private int metaDiaria = 30000;
+    private int metaDiaria = 1800000;
     private boolean notificado = false;
     @Bind(R.id.steps)
     TextView mStepsText;
@@ -113,7 +113,6 @@ public class PruebaThread extends Thread {
             mScale[1] = -(h * 0.5f * (1.0f / (SensorManager.MAGNETIC_FIELD_EARTH_MAX)));
             SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(activity);
             mLimit =Float.parseFloat(prefs.getString("pSensibilidad","20"));
-            Log.d("Deb",String.valueOf(mLimit));
         }
 
         public void onSensorChanged(SensorEvent event) {
@@ -129,7 +128,6 @@ public class PruebaThread extends Thread {
                             vSum += v;
                         }
 
-                        Log.i(TAG, "EntraSensor");
                         int k = 0;
                         float v = vSum / 3;
 
@@ -228,30 +226,32 @@ public class PruebaThread extends Thread {
     }
 
     public void realizarCalculos(int steps){
-        int lZancada=0,distancia;
+        int lZancada=0,distancia,peso;
         double velocidad , calorias, nivel;
         double tiempo=tiempos[2]/1000; //Tiempo en segundos
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
         lZancada=prefs.getInt("pDistanciaP", 65); // en cm
         distancia=(int)(steps*lZancada*0.01); //pasada a metros
+        peso=prefs.getInt("pPeso",70);//en kg
 //        velocidad=(distancia/1000.0)/((tiempo/60)); //pasada a kilometros/hora
         velocidad=(distancia/tiempo)*3.6;
         //velocidad=1;
         if (velocidad <= 2.9){
-            nivel=0.010; //no viene la he puesto aproximada
+            nivel=2.5; //no viene la he puesto aproximada
             //calorias=(67.5*minutos)/30;
         }else if(velocidad>3.0 && velocidad <=4.7){
-            nivel=0.026;
+            nivel=3;
             //  calorias=(150*minutos)/30   ;
         }else if(velocidad> 4.8 && velocidad <= 6.0){
-            nivel=0.035;
+            nivel=4;
             // calorias=(180*minutos)/30;
         }else{
-            nivel=0.0485;
+            nivel=4.85;
             // calorias=(220*minutos)/30;
         }
         //  minutos+=.1;
-        calorias=((2.2*prefs.getInt("pPeso",70))*tiempo*nivel)/1000;
+        //calorias=((2.2*prefs.getInt("pPeso",70))*tiempo*nivel)/1000;
+        calorias=peso*nivel*tiempo/3600;
         distRecorrida.setText(distancia+ "m");
         DecimalFormat df = new DecimalFormat("0.0");
         velocidadMedia.setText(df.format(velocidad) + "km/h");
@@ -272,7 +272,7 @@ public class PruebaThread extends Thread {
 
         // Pasos restantes para alcanzar la meta
         // sliceGoal = new PieModel("", meta, Color.parseColor("#CC0000"));
-        sliceGoal = new PieModel("", 1800000, Color.parseColor("#CC0000"));
+        sliceGoal = new PieModel("", metaDiaria, Color.parseColor("#CC0000"));
       /*  pg.addPieSlice(sliceGoal);
         pg.setDrawValueInPie(false);
         pg.setUsePieRotation(true);

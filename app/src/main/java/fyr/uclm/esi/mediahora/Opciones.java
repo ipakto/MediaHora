@@ -70,8 +70,10 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         findPreference("pPeso").setOnPreferenceClickListener(this);
         findPreference("pDistanciaP").setOnPreferenceClickListener(this);
         findPreference("pObjetivoPeso").setOnPreferenceClickListener(this);
-        findPreference("pSensibilidad").setOnPreferenceClickListener(this);
+        findPreference("pSensibilidad").setOnPreferenceChangeListener(this);
         completarCampos();
+
+        Util.cambiarColorStatusBar(this);
 
 
     }
@@ -81,14 +83,13 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         findPreference("pCorreo").setSummary(prefs.getString("pCorreo", getStr(R.string.desc_correo)));
         findPreference("pFondoPerf").setSummary(prefs.getString("pFondoPref", getStr(R.string.img_fondo)));
         findPreference("pObjetivoPeso").setSummary(prefs.getInt("pObjetivoPeso", 5) + " kg.");
-        /*findPreference("pFoto").setSummary(prefs.getString("pFoto",getStr(R.string.desc_foto)));*/
         getPrefValue("pEdad", prefs, " años");
         findPreference("pSexo").setSummary(prefs.getString("pSexo", getStr(R.string.desc_calorias)));
-        findPreference("pSensibilidad").setSummary(prefs.getString("pSensibilidad", getStr(R.string.desc_sens)));
+        findPreference("pSensibilidad").setSummary(getNombre(prefs.getString("pSensibilidad", getStr(R.string.desc_sens))));
         getPrefValue("pAltura", prefs, " cm.");
         getPrefValue("pPeso", prefs, " kg.");
         getPrefValue("pDistanciaP", prefs, " cm.");
-        getPrefObjetivo("pObjetivoPeso",prefs);
+        getPrefObjetivo("pObjetivoPeso", prefs);
     }
 
     private String getStr(int id){
@@ -122,7 +123,8 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
                 break;
             case R.string.pref_sens:
                 prefs.edit().putString("pSensibilidad",String.valueOf(newValue)).commit();
-                preference.setSummary(String.valueOf(newValue));
+                preference.setSummary(getNombre(String.valueOf(newValue)));
+                Prueba.cambiarSensibilidad(String.valueOf(newValue));
                 break;
             case R.string.pref_nombre:
                 prefs.edit().putString("pNombre", String.valueOf(newValue)).commit();
@@ -142,7 +144,42 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
         }
         return true;
     }
-
+    private String getNombre(String value){
+        String nombre="";
+        switch(value){
+            case "1.9753":
+                nombre="Extra alta";
+                break;
+            case "2.9630":
+                nombre="Muy alta";
+                break;
+            case "4.4444":
+                nombre="Alta";
+                break;
+            case "6.6667":
+                nombre= "Superior";
+                break;
+            case "10":
+                nombre= "Media";
+                break;
+            case "5":
+                nombre="Inferior";
+                break;
+            case "22.5":
+                nombre= "Baja";
+                break;
+            case "33.75":
+                nombre= "Muy baja";
+                break;
+            case "50.625":
+                nombre="Extra baja";
+                break;
+            default:
+                nombre=value;
+                break;
+        }
+        return nombre;
+    }
     @Override
     public boolean onPreferenceClick(final Preference preference){
         final AlertDialog.Builder builder;
