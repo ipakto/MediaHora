@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".presentacion.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -21,17 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InfoUsuario"/>
-        <activity android:name=".Stats"/>
-        <activity android:name=".Opciones"/>
-        <activity android:name=".AcercaDe"/>
-        <activity android:name=".FAQ"/>
-        <activity android:name=".Globales"/>
+        <activity android:name=".presentacion.InfoUsuario"/>
+        <activity android:name=".presentacion.Estadisticas"/>
+        <activity android:name=".presentacion.Opciones"/>
+        <activity android:name=".presentacion.AcercaDe"/>
+        <activity android:name=".presentacion.FAQ"/>
 
-        <service android:name=".MyAlarmService"
+        <service android:name=".dominio.MyAlarmService"
             android:enabled="true" />
 
-        <receiver android:name=".MyReceiver"/>
+        <receiver android:name=".dominio.MyReceiver"/>
     </application>
 
 </manifest>

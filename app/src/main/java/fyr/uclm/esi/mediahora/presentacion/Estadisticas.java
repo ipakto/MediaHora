@@ -1,4 +1,4 @@
-package fyr.uclm.esi.mediahora;
+package fyr.uclm.esi.mediahora.presentacion;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -12,13 +12,14 @@ import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.dominio.Util;
 import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 
 /**
  * Created by Rosana on 15/11/2015.
  */
-public class Stats extends Activity
+public class Estadisticas extends Activity
 {
     @Bind(R.id.txtCalTotales) TextView caloriasR;
     @Bind(R.id.txtPasosTotales) TextView pasosR;
@@ -36,13 +37,12 @@ public class Stats extends Activity
         bd.abrir();
         Cursor c=bd.obtenerTodosValores();
         int pasos=0, tiempo=0,distancia=0;
-        double kcal=0,velocidad=0;
+        double kcal=0,velocidad;
         if (c.moveToFirst()) {
             do {
                 pasos+=c.getInt(1);
                 kcal+=c.getDouble(2);
                 tiempo+=c.getInt(3);
-                //velocidad+=c.getDouble(4);
                 distancia+=c.getInt(5);
             } while(c.moveToNext());
         }
@@ -50,7 +50,7 @@ public class Stats extends Activity
         kcal+=prefs.getFloat("calorias",0);
         tiempo+=prefs.getInt("tiempo",0);
         distancia+=prefs.getInt("distancia",0);
-        velocidad=(distancia*1000/tiempo)*3.6;
+        velocidad=distancia*3600.0/tiempo;
         pasosR.setText(String.valueOf(pasos));
         distanciaR.setText(distancia+ "m");
         DecimalFormat df = new DecimalFormat("0.0");

@@ -1,8 +1,9 @@
-package fyr.uclm.esi.mediahora;
+package fyr.uclm.esi.mediahora.presentacion;
 
 import android.app.Activity;
 import android.os.Bundle;
 
+import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.dominio.Util;
 
 /**
@@ -12,7 +13,7 @@ public class AcercaDe extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.about_us);
+        setContentView(R.layout.acerca_de);
         Util.cambiarColorStatusBar(this);
     }
 }

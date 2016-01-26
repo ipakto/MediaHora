@@ -1,4 +1,4 @@
-package fyr.uclm.esi.mediahora;
+package fyr.uclm.esi.mediahora.presentacion;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.dominio.Util;
 
 /**

@@ -1,4 +1,4 @@
-package fyr.uclm.esi.mediahora;
+package fyr.uclm.esi.mediahora.dominio;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -23,13 +23,14 @@ import java.text.DecimalFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import fyr.uclm.esi.mediahora.dominio.*;
+import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
+import fyr.uclm.esi.mediahora.presentacion.MainActivity;
 
 /**
  * Created by Paco on 21/01/2016.
  */
-public class PruebaThread extends Thread {
+public class ThreadDetector extends Thread {
 
     private SensorManager mSensorManager;
     private Sensor mSensor;
@@ -61,7 +62,7 @@ public class PruebaThread extends Thread {
     @Bind(R.id.graphPasos)
     PieChart pg;
 
-    public PruebaThread(Context context, MainActivity activity, View v) {
+    public ThreadDetector(Context context, MainActivity activity, View v) {
         this.context = context;
         tiempos[0] = System.currentTimeMillis();
         this.activity = activity;
@@ -82,7 +83,7 @@ public class PruebaThread extends Thread {
         velocidadMedia = (TextView) view.findViewById(R.id.txtVelocidad);
         mStepsText = (TextView) view.findViewById(R.id.steps);
         pg = (PieChart) view.findViewById(R.id.graphPasos);
-        iniciarGrafico();
+        //iniciarGrafico();
         cargarValores();
     }
 
@@ -93,7 +94,6 @@ public class PruebaThread extends Thread {
 
     private class Listener implements SensorEventListener {
 
-        private final static String TAG = "StepDetector";
         private float mLimit;
         private float mLastValues[] = new float[3 * 2];
         private float mScale[] = new float[2];
@@ -112,7 +112,7 @@ public class PruebaThread extends Thread {
             mScale[0] = -(h * 0.5f * (1.0f / (SensorManager.STANDARD_GRAVITY * 2)));
             mScale[1] = -(h * 0.5f * (1.0f / (SensorManager.MAGNETIC_FIELD_EARTH_MAX)));
             SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(activity);
-            mLimit =Float.parseFloat(prefs.getString("pSensibilidad","20"));
+            mLimit =Float.parseFloat(prefs.getString("pSensibilidad","10"));
         }
 
         public void onSensorChanged(SensorEvent event) {
@@ -173,7 +173,7 @@ public class PruebaThread extends Thread {
             mLimit=sensibilidad;
         }
     }
-    private void insertarEnBD(){
+    public void insertarEnBD(){
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(activity);
         ConectorBD conectorBD = new ConectorBD(activity);
         conectorBD.abrir();
@@ -182,10 +182,8 @@ public class PruebaThread extends Thread {
         int tiempo=prefs.getInt("tiempo",0);
         int distancia=prefs.getInt("distancia",0);
         int pasos=prefs.getInt("pasos", 0);
-        //conectorBD.insertarValor(System.currentTimeMillis(), 27,prefs.getFloat("kcal",0),prefs.getInt("tiempo",0),prefs.getFloat("velocidad",0),prefs.getInt("distancia",0));
         conectorBD.insertarValor(System.currentTimeMillis(),pasos,kcal,tiempo,velocidad,distancia);
         conectorBD.cerrar();
-        //Toast.makeText(activity.getBaseContext(), "Se añadió una nueva entrada a la BD!", Toast.LENGTH_SHORT).show();
         notificado=false;
 
         prefs.edit().putFloat("calorias", 0).commit();
@@ -205,17 +203,19 @@ public class PruebaThread extends Thread {
         float velocidad=prefs.getFloat("velocidad", 0);
         tiempos[2]=tiempo;
         mNumSteps=pasos;
-        distRecorrida.setText(distancia+ "m");
+        distRecorrida.setText(distancia + "m");
         DecimalFormat df = new DecimalFormat("0.0");
         velocidadMedia.setText(df.format(velocidad) + "km/h");
         caloriasConsumidas.setText(df.format(kcal) + "kcal");
         tiempoMedio.setText(fyr.uclm.esi.mediahora.dominio.Util.calcularTiempo(tiempo));
         mStepsText.setText(String.valueOf(pasos));
-        // actualizarGrafico();
     }
+    public void cargarSlices(PieModel goal,PieModel current){
+        sliceCurrent=current;
+        sliceGoal=goal;
 
+    }
     public void comprobarTiempo(){
-        //tiempos[1]=Util.getToday();
         tiempos[1]=System.currentTimeMillis();
         long res=tiempos[1]-tiempos[0];
         if(res<5000){
@@ -233,24 +233,11 @@ public class PruebaThread extends Thread {
         lZancada=prefs.getInt("pDistanciaP", 65); // en cm
         distancia=(int)(steps*lZancada*0.01); //pasada a metros
         peso=prefs.getInt("pPeso",70);//en kg
-//        velocidad=(distancia/1000.0)/((tiempo/60)); //pasada a kilometros/hora
         velocidad=(distancia/tiempo)*3.6;
-        //velocidad=1;
-        if (velocidad <= 2.9){
-            nivel=2.5; //no viene la he puesto aproximada
-            //calorias=(67.5*minutos)/30;
-        }else if(velocidad>3.0 && velocidad <=4.7){
-            nivel=3;
-            //  calorias=(150*minutos)/30   ;
-        }else if(velocidad> 4.8 && velocidad <= 6.0){
-            nivel=4;
-            // calorias=(180*minutos)/30;
-        }else{
-            nivel=4.85;
-            // calorias=(220*minutos)/30;
-        }
-        //  minutos+=.1;
-        //calorias=((2.2*prefs.getInt("pPeso",70))*tiempo*nivel)/1000;
+        if (velocidad <= 2.9) nivel=2.5;
+        else if(velocidad>3.0 && velocidad <=4.7) nivel=3;
+        else if(velocidad> 4.8 && velocidad <= 6.0) nivel=4;
+        else nivel = 4.85;
         calorias=peso*nivel*tiempo/3600;
         distRecorrida.setText(distancia+ "m");
         DecimalFormat df = new DecimalFormat("0.0");
@@ -266,28 +253,8 @@ public class PruebaThread extends Thread {
 
     }
 
-    private void iniciarGrafico() {
-        sliceCurrent = new PieModel("", 0, Color.parseColor("#99CC00"));
-        //    pg.addPieSlice(sliceCurrent);
-
-        // Pasos restantes para alcanzar la meta
-        // sliceGoal = new PieModel("", meta, Color.parseColor("#CC0000"));
-        sliceGoal = new PieModel("", metaDiaria, Color.parseColor("#CC0000"));
-      /*  pg.addPieSlice(sliceGoal);
-        pg.setDrawValueInPie(false);
-        pg.setUsePieRotation(true);
-        pg.startAnimation();*/
-    }
 
     private void actualizarGrafico(){
-       /* sliceCurrent.setValue(mNumSteps);
-        if(meta-mNumSteps>0){
-            sliceGoal.setValue(meta-mNumSteps);
-        }else{
-            sliceGoal.setValue(0);
-            notificar();
-        }
-        pg.update();*/
         sliceCurrent.setValue(tiempos[2]);
         if(metaDiaria-tiempos[2]>0){
             sliceGoal.setValue(metaDiaria-tiempos[2]);

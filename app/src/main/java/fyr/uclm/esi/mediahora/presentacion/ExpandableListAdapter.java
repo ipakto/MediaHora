@@ -1,4 +1,4 @@
-package fyr.uclm.esi.mediahora;
+package fyr.uclm.esi.mediahora.presentacion;
 
 /**
  * Created by Rosana on 04/01/2016.
@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
+import fyr.uclm.esi.mediahora.R;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 

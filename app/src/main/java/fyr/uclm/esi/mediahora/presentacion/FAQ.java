@@ -1,7 +1,7 @@
-package fyr.uclm.esi.mediahora;
+package fyr.uclm.esi.mediahora.presentacion;
 
 
-import fyr.uclm.esi.mediahora.ExpandableListAdapter;
+import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.dominio.*;
 
 import java.util.ArrayList;
@@ -9,17 +9,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import android.app.Activity;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Menu;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.Toast;
+
 /**
  * Created by Rosana on 04/01/2016.
  */
@@ -27,7 +21,6 @@ public class FAQ extends Activity{
 
     List<String> groupList;
     List<String> childList;
-    String child;
     Map<String, String> colePre;
     Map<String, List<String>> coleccionPreguntas;
     ExpandableListView expListView;
@@ -35,7 +28,7 @@ public class FAQ extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.preguntas_frecuentes);
+        setContentView(R.layout.faq);
 
         createGroupList();
 

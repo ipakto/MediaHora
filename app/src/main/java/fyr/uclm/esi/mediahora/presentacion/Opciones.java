@@ -1,40 +1,30 @@
-package fyr.uclm.esi.mediahora;
+package fyr.uclm.esi.mediahora.presentacion;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.prefs.Preferences;
 
-import butterknife.Bind;
+import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.dominio.Util;
+import fyr.uclm.esi.mediahora.presentacion.ActualFragment;
 
 /**
  * Created by Paco on 28/11/2015.
@@ -124,7 +114,7 @@ public class Opciones extends PreferenceActivity implements Preference.OnPrefere
             case R.string.pref_sens:
                 prefs.edit().putString("pSensibilidad",String.valueOf(newValue)).commit();
                 preference.setSummary(getNombre(String.valueOf(newValue)));
-                Prueba.cambiarSensibilidad(String.valueOf(newValue));
+                ActualFragment.cambiarSensibilidad(String.valueOf(newValue));
                 break;
             case R.string.pref_nombre:
                 prefs.edit().putString("pNombre", String.valueOf(newValue)).commit();

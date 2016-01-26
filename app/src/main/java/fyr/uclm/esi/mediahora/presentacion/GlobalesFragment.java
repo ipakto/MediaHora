@@ -1,4 +1,4 @@
-package fyr.uclm.esi.mediahora;
+package fyr.uclm.esi.mediahora.presentacion;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
@@ -19,8 +19,7 @@ import org.eazegraph.lib.models.PieModel;
 
 import java.text.DecimalFormat;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 
 /**
@@ -41,7 +40,7 @@ public class GlobalesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.layout_global2, container, false);
+        View v = inflater.inflate(R.layout.global, container, false);
         pg=(PieChart) v.findViewById(R.id.graph2);
         sesCompletadas=(TextView) v.findViewById(R.id.lblSesionesCompletadas);
         sesiones =(TextView) v.findViewById(R.id.sesiones);

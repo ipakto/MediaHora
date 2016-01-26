@@ -238,16 +238,4 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BTN"
-        android:id="@+id/btnPaso"
-        android:layout_above="@+id/LayoutCalVel"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="35dp"
-        android:layout_marginStart="35dp"
-        android:visibility="invisible" />
-
 </RelativeLayout>
