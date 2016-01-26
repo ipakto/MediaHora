@@ -26,9 +26,15 @@ import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.dominio.Util;
 import fyr.uclm.esi.mediahora.presentacion.ActualFragment;
 
-/**
- * Created by Paco on 28/11/2015.
- */
+/******************************************************************************************
+ * *******************************MULTIMEDIA***********************************************
+ * ******************ESCUELA SUPERIOR DE INFORMÁTICA(UCLM)*********************************
+ * ************************PRÁCTICA REALIZADA POR:*****************************************
+ *       *                                                                                *
+ *		 * 				- Francisco Ruiz Romero											  *
+ *		 * 				- Rosana Rodríguez-Bobada Aranda								  *
+ * 																						  *
+ ******************************************************************************************/
 /*
  * IMAGENES: https://github.com/Roberasd/Pictures-Android
  */

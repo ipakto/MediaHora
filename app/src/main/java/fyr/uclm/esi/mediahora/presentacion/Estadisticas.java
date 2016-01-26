@@ -16,9 +16,15 @@ import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.dominio.Util;
 import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 
-/**
- * Created by Rosana on 15/11/2015.
- */
+/******************************************************************************************
+ * *******************************MULTIMEDIA***********************************************
+ * ******************ESCUELA SUPERIOR DE INFORMÁTICA(UCLM)*********************************
+ * ************************PRÁCTICA REALIZADA POR:*****************************************
+ *       *                                                                                *
+ *		 * 				- Francisco Ruiz Romero											  *
+ *		 * 				- Rosana Rodríguez-Bobada Aranda								  *
+ * 																						  *
+ ******************************************************************************************/
 public class Estadisticas extends Activity
 {
     @Bind(R.id.txtCalTotales) TextView caloriasR;

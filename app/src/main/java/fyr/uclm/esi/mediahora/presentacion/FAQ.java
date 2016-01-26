@@ -14,9 +14,15 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-/**
- * Created by Rosana on 04/01/2016.
- */
+/******************************************************************************************
+ * *******************************MULTIMEDIA***********************************************
+ * ******************ESCUELA SUPERIOR DE INFORMÁTICA(UCLM)*********************************
+ * ************************PRÁCTICA REALIZADA POR:*****************************************
+ *       *                                                                                *
+ *		 * 				- Francisco Ruiz Romero											  *
+ *		 * 				- Rosana Rodríguez-Bobada Aranda								  *
+ * 																						  *
+ ******************************************************************************************/
 public class FAQ extends Activity{
 
     List<String> groupList;

@@ -17,9 +17,15 @@ import org.eazegraph.lib.models.PieModel;
 import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.dominio.ThreadDetector;
 
-/**
- * Created by Paco on 16/11/2015.
- */
+/******************************************************************************************
+ * *******************************MULTIMEDIA***********************************************
+ * ******************ESCUELA SUPERIOR DE INFORMÁTICA(UCLM)*********************************
+ * ************************PRÁCTICA REALIZADA POR:*****************************************
+ *       *                                                                                *
+ *		 * 				- Francisco Ruiz Romero											  *
+ *		 * 				- Rosana Rodríguez-Bobada Aranda								  *
+ * 																						  *
+ ******************************************************************************************/
 public class ActualFragment extends Fragment {
 
     private PieModel sliceGoal, sliceCurrent;

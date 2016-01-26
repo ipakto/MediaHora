@@ -1,5 +1,14 @@
 package fyr.uclm.esi.mediahora.dominio;
 
+/******************************************************************************************
+ * *******************************MULTIMEDIA***********************************************
+ * ******************ESCUELA SUPERIOR DE INFORMÁTICA(UCLM)*********************************
+ * ************************PRÁCTICA REALIZADA POR:*****************************************
+ *       *                                                                                *
+ *		 * 				- Francisco Ruiz Romero											  *
+ *		 * 				- Rosana Rodríguez-Bobada Aranda								  *
+ * 																						  *
+ ******************************************************************************************/
  import android.app.Activity;
  import android.content.SharedPreferences;
  import android.os.Build;
@@ -7,7 +16,7 @@ package fyr.uclm.esi.mediahora.dominio;
  import android.view.Window;
  import android.view.WindowManager;
 
- import java.util.Calendar;
+
 
  import fyr.uclm.esi.mediahora.R;
 
@@ -23,14 +32,12 @@ public  class Util {
         pesoActual=prefs.getInt("pPeso",70);
         pesoDeseado=prefs.getInt("pObjetivoPeso",60);
         difPesos=pesoActual-pesoDeseado;
-      //  metabolismo=pesoActual*10 + prefs.getInt("pAltura",165)*6.25-prefs.getInt("pEdad",21)*5;
         if(tieneSobrepeso(a)){
             caloriasKilo=8750-2800;
         }else{
             caloriasKilo=7700-2800;
         }
-        caloriasQuemar=caloriasKilo*difPesos; // calorias=peso*nivel*tiempo(horas)
-       // tiempo=((caloriasQuemar*1000)/(2.2*pesoActual*0.026))/60;
+        caloriasQuemar=caloriasKilo*difPesos;
         tiempo=(caloriasQuemar)/(pesoActual*2.66);
         tiempoObjetivo=tiempo*60/30;
 
@@ -60,9 +67,7 @@ public  class Util {
         String hFinal,mFinal,sFinal;
         s=(int) milis/1000;
         h=s/3600;
-        /*m=h-(s/3600)*60;
-        s=m-(((h-(s/3600))*60)*60);*/
-        m=(s%3600)/60;//(s-(h*3600))/60;
+        m=(s%3600)/60;
         s-=(h*3600+m*60);
         if (h < 10) {
             hFinal="0"+h;

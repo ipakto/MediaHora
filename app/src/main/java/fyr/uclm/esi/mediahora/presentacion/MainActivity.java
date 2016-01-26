@@ -43,6 +43,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import fyr.uclm.esi.mediahora.dominio.MyReceiver;
 import fyr.uclm.esi.mediahora.R;
 
+/******************************************************************************************
+ * *******************************MULTIMEDIA***********************************************
+ * ******************ESCUELA SUPERIOR DE INFORMÁTICA(UCLM)*********************************
+ * ************************PRÁCTICA REALIZADA POR:*****************************************
+ *       *                                                                                *
+ *		 * 				- Francisco Ruiz Romero											  *
+ *		 * 				- Rosana Rodríguez-Bobada Aranda								  *
+ * 																						  *
+ ******************************************************************************************/
 
 public class MainActivity extends AppCompatActivity {
 
@@ -135,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
                     case R.id.faq:
                         startActivity(new Intent(MainActivity.this, FAQ.class));
-                        prueba();
                         return true;
 
                     default:
@@ -299,33 +307,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void prueba(){
-        String mensaje="DEVICE SHELL COMMAND: am start -D -n \"fyr.uclm.esi.mediahora/fyr.uclm.esi.mediahora.presentacion.MainActivity\" -a android.intent.action.MAIN -c android.intent.category.LAUNCHER\n" +
-                "Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=fyr.uclm.esi.mediahora/.MainActivity }";
-        Notification.Builder builder=new Notification.Builder(this);
-        Intent intent1 = new Intent(this.getApplicationContext(),MainActivity.class);
-        PendingIntent pendingNotificationIntent = PendingIntent.getActivity( this.getApplicationContext(),0, intent1,PendingIntent.FLAG_UPDATE_CURRENT);
-        builder
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setTicker("¡¡ENHORABUENA!!")
-                .setWhen(System.currentTimeMillis())
-                .setContentTitle("ALARMA")
-                .setContentText(mensaje)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
-        builder.setVibrate(new long[]{1000, 500, 1000});
-        builder.setLights(Color.CYAN, 1, 0);
-        builder.setAutoCancel(true);
-        builder.setContentIntent(pendingNotificationIntent);
-
-        Notification.BigTextStyle n=new Notification.BigTextStyle(builder).bigText("asxjhlavsjxas"+mensaje).setBigContentTitle("titulo");
-        NotificationManager notifManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-
-        int notif_ref = 1;
-
-        notifManager.notify(notif_ref, n.build());
-    }
     private void compartir(){
 
         Intent intent = new Intent(Intent.ACTION_SEND);

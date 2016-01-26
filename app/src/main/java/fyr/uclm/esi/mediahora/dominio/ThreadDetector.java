@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,9 +28,16 @@ import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 import fyr.uclm.esi.mediahora.presentacion.MainActivity;
 
-/**
- * Created by Paco on 21/01/2016.
- */
+
+/******************************************************************************************
+ * *******************************MULTIMEDIA***********************************************
+ * ******************ESCUELA SUPERIOR DE INFORMÁTICA(UCLM)*********************************
+ * ************************PRÁCTICA REALIZADA POR:*****************************************
+ *       *                                                                                *
+ *		 * 				- Francisco Ruiz Romero											  *
+ *		 * 				- Rosana Rodríguez-Bobada Aranda								  *
+ * 																						  *
+ ******************************************************************************************/
 public class ThreadDetector extends Thread {
 
     private SensorManager mSensorManager;
@@ -91,7 +99,7 @@ public class ThreadDetector extends Thread {
         listener.setSensibilidad(sensibilidad);
     }
 
-
+    //https://github.com/bagilevi/android-pedometer
     private class Listener implements SensorEventListener {
 
         private float mLimit;
@@ -278,7 +286,8 @@ public class ThreadDetector extends Thread {
                 .setTicker("¡¡ENHORABUENA!!")
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle("¡¡Meta completada!!")
-                .setContentText(mensajesFelicitacion[posMensaje]);
+                .setContentText(mensajesFelicitacion[posMensaje])
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
         builder.setVibrate(new long[]{1000, 500, 1000});
         builder.setLights(Color.CYAN, 1, 0);
         builder.setAutoCancel(true);

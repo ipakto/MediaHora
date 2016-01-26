@@ -1,14 +1,24 @@
 package fyr.uclm.esi.mediahora.dominio;
 
-/**
- * Created by Paco on 17/01/2016.
- */
+
+/******************************************************************************************
+ * *******************************MULTIMEDIA***********************************************
+ * ******************ESCUELA SUPERIOR DE INFORMÁTICA(UCLM)*********************************
+ * ************************PRÁCTICA REALIZADA POR:*****************************************
+ *       *                                                                                *
+ *		 * 				- Francisco Ruiz Romero											  *
+ *		 * 				- Rosana Rodríguez-Bobada Aranda								  *
+ * 																						  *
+ ******************************************************************************************/
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -96,16 +106,29 @@ public class MyAlarmService extends Service
 
         }
         if(esHora){
-            mManager = (NotificationManager) this.getApplicationContext().getSystemService(this.getApplicationContext().NOTIFICATION_SERVICE);
+            Notification.Builder builder=new Notification.Builder(this);
             Intent intent1 = new Intent(this.getApplicationContext(),MainActivity.class);
-            Notification notification = new Notification(R.drawable.icon, mensaje, System.currentTimeMillis());
-            intent1.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP| Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
             PendingIntent pendingNotificationIntent = PendingIntent.getActivity( this.getApplicationContext(),0, intent1,PendingIntent.FLAG_UPDATE_CURRENT);
-            notification.flags |= Notification.FLAG_AUTO_CANCEL;
-            notification.setLatestEventInfo(this.getApplicationContext(), "ALARMA", mensaje, pendingNotificationIntent);
+            builder
 
-            mManager.notify(0, notification);
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentTitle("Media Hora")
+                    .setContentText(mensaje)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+            builder.setVibrate(new long[]{1000, 500, 1000});
+            builder.setLights(Color.CYAN, 1, 0);
+            builder.setAutoCancel(true);
+            builder.setContentIntent(pendingNotificationIntent);
+
+            Notification.BigTextStyle n=new Notification.BigTextStyle(builder).bigText(mensaje).setBigContentTitle("Media Hora");
+            NotificationManager notifManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+
+            int notif_ref = 1;
+
+            notifManager.notify(notif_ref, n.build());
         }
 
 

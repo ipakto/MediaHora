@@ -22,9 +22,15 @@ import java.text.DecimalFormat;
 import fyr.uclm.esi.mediahora.R;
 import fyr.uclm.esi.mediahora.persistencia.ConectorBD;
 
-/**
- * Created by Rosana on 17/01/2016.
- */
+/******************************************************************************************
+ * *******************************MULTIMEDIA***********************************************
+ * ******************ESCUELA SUPERIOR DE INFORMÁTICA(UCLM)*********************************
+ * ************************PRÁCTICA REALIZADA POR:*****************************************
+ *       *                                                                                *
+ *		 * 				- Francisco Ruiz Romero											  *
+ *		 * 				- Rosana Rodríguez-Bobada Aranda								  *
+ * 																						  *
+ ******************************************************************************************/
 public class GlobalesFragment extends Fragment {
 
     private PieModel sliceGoal, sliceCurrent;
