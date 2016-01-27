@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#e5f2ff"
+    tools:context=".InfoUsuario">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="267dp"
+        android:layout_height="283dp"
+        android:id="@+id/fotoPerfil"
+        android:src="@drawable/usuario"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/txtNombre"
+            android:textStyle="bold"
+            android:text="Nombre"
+            android:layout_weight=".3"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/txtCorreo"
+            android:id="@+id/txtCorreo"
+            android:autoLink="email"
+            android:layout_weight=".7"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/lblAltura"
+            android:id="@+id/lblAltura"
+            android:textStyle="bold"
+            android:layout_below="@+id/txtNombre"
+            android:layout_alignLeft="@+id/txtNombre"
+            android:layout_alignStart="@+id/txtNombre"
+            android:layout_weight=".33"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/lblZancada"
+            android:id="@+id/lblZancada"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/lblAltura"
+            android:layout_centerHorizontal="true"
+            android:layout_weight=".33"
+            android:textAlignment="center"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/lblPeso"
+            android:id="@+id/lblPeso"
+            android:textStyle="bold"
+            android:layout_alignTop="@+id/lblZancada"
+            android:layout_alignLeft="@+id/ic_peso"
+            android:layout_alignStart="@+id/ic_peso"
+            android:layout_weight=".33"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_altura"
+            android:src="@drawable/ic_altura"
+            android:layout_below="@+id/lblAltura"
+            android:layout_alignLeft="@+id/tAltura"
+            android:layout_alignStart="@+id/tAltura"
+            android:layout_weight=".33" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_zancada"
+            android:src="@drawable/ic_zancada"
+            android:layout_below="@+id/lblZancada"
+            android:layout_centerHorizontal="true"
+            android:layout_weight=".33" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_peso"
+            android:src="@drawable/ic_peso"
+            android:layout_below="@+id/lblPeso"
+            android:layout_alignRight="@+id/txtCorreo"
+            android:layout_alignEnd="@+id/txtCorreo"
+            android:layout_weight=".33"
+            android:layout_marginTop="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:text="1,75 m"
+            android:id="@+id/tAltura"
+            android:layout_alignTop="@+id/tZancada"
+            android:layout_alignLeft="@+id/lblAltura"
+            android:layout_alignStart="@+id/lblAltura"
+            android:layout_weight=".33"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:text="65 cm"
+            android:id="@+id/tZancada"
+            android:layout_below="@+id/ic_zancada"
+            android:layout_centerHorizontal="true"
+            android:layout_weight=".33"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:text="60 KG"
+            android:id="@+id/tPeso"
+            android:layout_below="@+id/ic_zancada"
+            android:layout_alignLeft="@+id/ic_peso"
+            android:layout_alignStart="@+id/ic_peso"
+            android:layout_weight=".33"
+            android:gravity="center" />
+    </LinearLayout>
+
+</LinearLayout>
